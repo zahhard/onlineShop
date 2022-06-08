@@ -1,6 +1,8 @@
 package data.repository
 
 import model.Category
+import model.Produce
+import model.ProduceItem
 import javax.inject.Inject
 
 class CommodityRepository @Inject constructor (val localDataSource: LocalDataSource,
@@ -8,5 +10,9 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
 
     suspend fun getCategoryList(): List<Category>{
         return remoteDataSource.getCategoryList()
+    }
+
+    suspend fun getProduceOrderByPopularity(orderBy : String): List<ProduceItem> {
+        return remoteDataSource.getProduceOrderByPopularity(orderBy)
     }
 }
