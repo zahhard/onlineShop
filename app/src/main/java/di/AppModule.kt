@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import data.network.ApiService
+import data.network.NetworkParams
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -18,43 +19,56 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object AppModule {
+//
+//    @Singleton
+//    @Provides
+//    fun provideRetrofit(moshi: Moshi, client: OkHttpClient): Retrofit {
+//        return Retrofit.Builder()
+//            .baseUrl(NetworkParams.BASE_URL)
+//            .addConverterFactory(MoshiConverterFactory.create(moshi))
+//            .client(client)
+//            .build()
+//    }
+//
+//    @Singleton
+//    @Provides
+//    fun provideMoshi(): Moshi {
+//        return Moshi.Builder()
+//            .add(KotlinJsonAdapterFactory())
+//            .build()
+//    }
+//
+//    @Singleton
+//    @Provides
+//    fun provideClient(): OkHttpClient {
+//        val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+//
+//        return OkHttpClient.Builder()
+//            .addInterceptor(logger)
+//            .connectTimeout(50, TimeUnit.SECONDS)
+//            .build()
+//    }
 
     @Singleton
     @Provides
-    fun provideRetrofit(moshi: Moshi, client: OkHttpClient):Retrofit{
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/")
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .client(client)
-            .build()
-        return retrofit
-    }
-
-    @Singleton
-    @Provides
-    fun provideMoshi(): Moshi{
+    fun provideApiService(): ApiService {
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
-        return moshi
-    }
-
-    @Singleton
-    @Provides
-    fun provideClient(): OkHttpClient{
         val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
-
         val client = OkHttpClient.Builder()
             .addInterceptor(logger)
             .connectTimeout(50, TimeUnit.SECONDS)
             .build()
-        return client
-    }
 
-    @Singleton
-    @Provides
-    fun provideApiService(retrofit: Retrofit) : ApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(NetworkParams.BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(client)
+            .build()
+
         val apiService = retrofit.create(ApiService::class.java)
+
         return apiService
     }
 }
