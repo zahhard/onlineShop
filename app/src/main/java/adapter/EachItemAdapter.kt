@@ -49,7 +49,7 @@ class EachItemAdapter(var fragment: Fragment, private var showFilmDetails: showI
         holder.tvPrice.text = getItem(position).price
 
         holder.itemView.setOnClickListener {
-            showFilmDetails()
+            showFilmDetails(getItem(position).id)
         }
 
     }
