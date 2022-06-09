@@ -15,4 +15,8 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
     suspend fun getProduceOrderByPopularity(orderBy : String): List<ProduceItem> {
         return remoteDataSource.getProduceOrderByPopularity(orderBy)
     }
+
+    suspend fun getItemDetail(id: Int) : ProduceItem{
+        return remoteDataSource.getItemDetail(id)
+    }
 }

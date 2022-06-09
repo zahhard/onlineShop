@@ -4,6 +4,7 @@ import model.Category
 import model.Produce
 import model.ProduceItem
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -21,4 +22,12 @@ interface ApiService {
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : List<ProduceItem>
+
+
+    @GET("products/{id}")
+    suspend fun getItemDetail(
+        @Path(value = "id") id : Int,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : ProduceItem
 }
