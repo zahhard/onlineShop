@@ -18,10 +18,18 @@
         <action
             android:id="@+id/action_homeFragment_to_eachCategoryFragment"
             app:destination="@id/eachCategoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/eachCategoryFragment"
         android:name="ui.eachCategoryFragment"
         android:label="fragment_each_category"
         tools:layout="@layout/fragment_each_category" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="ui.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" />
 </navigation>
