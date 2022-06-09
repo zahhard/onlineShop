@@ -15,7 +15,7 @@ import com.example.onlineshop.R
 import data.network.NetworkParams
 import model.Category
 
-typealias showInsideOfCategory = () -> Unit
+typealias showInsideOfCategory = (Int) -> Unit
 
 
 class CategoryAdapter(var fragment: Fragment, private var showFilmDetails: showInsideOfCategory) :
@@ -55,7 +55,7 @@ class CategoryAdapter(var fragment: Fragment, private var showFilmDetails: showI
 
 
         holder.itemView.setOnClickListener {
-            showFilmDetails()
+            showFilmDetails(0)
         }
 
     }
