@@ -2,6 +2,7 @@ package adapter
 
 import android.graphics.Color
 import android.provider.ContactsContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,11 +40,15 @@ class EachItemAdapter(var fragment: Fragment, private var showFilmDetails: showI
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        Glide.with(fragment)
-            .load(getItem(position).images[0].src)
-            .placeholder(R.drawable.ic_baseline_error_outline_24)
-            .error(R.drawable.ic_baseline_error_outline_24)
-            .into(holder.imageView)
+        try {
+            Glide.with(fragment)
+                .load(getItem(position).images[0].src)
+                .placeholder(R.drawable.ic_baseline_error_outline_24)
+                .error(R.drawable.ic_baseline_error_outline_24)
+                .into(holder.imageView)
+        }catch (e: Exception){
+            Log.d("ddd", "exeption")
+        }
 
         holder.tvName.text = getItem(position).name
         holder.tvPrice.text = getItem(position).price
