@@ -1,17 +1,18 @@
 package model
 
 import com.squareup.moshi.Json
+import java.security.KeyStore
 
 data class ProduceItem(
 //    val _links: Links,
 //    val attributes: List<Any>,
-//    val average_rating: String,
+    @Json(name = "average_rating") val average_rating: Double,
 //    val backordered: Boolean,
 //    val backorders: String,
 //    val backorders_allowed: Boolean,
 //    val button_text: String,
 //    val catalog_visibility: String,
-//    val categories: List<Category>,
+    @Json(name = "categories") val categories: List<ProduceCategory>,
 //    val cross_sell_ids: List<Any>,
 //    val date_created: String,
 //    val date_created_gmt: String,
@@ -22,7 +23,7 @@ data class ProduceItem(
 //    val date_on_sale_to: Any,
 //    val date_on_sale_to_gmt: Any,
 //    val default_attributes: List<Any>,
-//    val description: String,
+    @Json(name = "description") val description: String,
 //    val dimensions: Dimensions,
 //    val download_expiry: Int,
 //    val download_limit: Int,
