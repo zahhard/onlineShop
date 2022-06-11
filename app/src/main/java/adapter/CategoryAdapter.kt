@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
@@ -25,6 +26,7 @@ class CategoryAdapter(var fragment: Fragment, private var showFilmDetails: showI
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val  imageViewItemCategory = view.findViewById<ImageView>(R.id.item_category)
         val  cardView = view.findViewById<CardView>(R.id.cardView)
+        val title = view.findViewById<TextView>(R.id.title)
     }
 
 
@@ -36,6 +38,8 @@ class CategoryAdapter(var fragment: Fragment, private var showFilmDetails: showI
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        holder.title.text = getItem(position).name
 
         Glide.with(fragment)
             .load(getItem(position).image.src)
