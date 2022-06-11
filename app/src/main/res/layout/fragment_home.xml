@@ -28,17 +28,28 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_gravity="right"
+            android:text="دسته بندی محصولات"
+            android:textColor="@color/black" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/top_recyclerview"
-            android:layout_margin="5dp"
+            android:layout_marginVertical="5dp"
+            android:layout_marginHorizontal="15dp"
+            android:layoutDirection="rtl"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
+            android:layoutDirection="rtl"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/recyclerview_categories"/>
@@ -47,6 +58,7 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:orientation="horizontal">
 
 
@@ -94,6 +106,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/top_recyclerview_new"
             android:layout_margin="5dp"
+            android:layoutDirection="rtl"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
@@ -148,6 +161,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/top_recyclerview_popular"
             android:layout_margin="5dp"
+            android:layoutDirection="rtl"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
@@ -200,6 +214,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/top_recyclerview_best"
             android:layout_margin="5dp"
+            android:layoutDirection="rtl"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
