@@ -11,8 +11,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//
-//        supportActionBar?.hide()
+
+        supportActionBar?.hide()
 //        val imageView = findViewById<ImageView>(R.id.icon_splash_screen)
 //        val fragment = findViewById<View>(R.id.fragmentContainerView2)
 //        imageView.alpha=0f
