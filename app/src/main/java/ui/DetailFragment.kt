@@ -59,6 +59,7 @@ class DetailFragment : Fragment() {
                 binding.rating.text = it.average_rating.toString()
                 getCategoryList(it)
                 binding.tvCategoryList.text = category
+                binding.detailPrice.text = it.price
             }
         }
     }
