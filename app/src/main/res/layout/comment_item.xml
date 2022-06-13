@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="10dp"
+    android:backgroundTint="#D9D9D9"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <RatingBar
+            android:id="@+id/comment_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_marginLeft="20dp"/>
+
+
+    <TextView
+        android:id="@+id/reviewer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="علی زمانی"
+        android:layout_marginHorizontal="20dp"
+        android:textStyle="bold"
+        android:textColor="#517197"
+        android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/comment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="علی زمانی"
+        android:layout_margin="25dp"
+        android:textStyle="bold"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/comment_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="علی زمانی"
+        android:textColor="#9C9A9A"
+        android:layout_margin="25dp"
+        android:textStyle="bold"
+        android:textSize="15sp"/>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
