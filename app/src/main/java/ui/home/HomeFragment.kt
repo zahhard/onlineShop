@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import ui.home.HomeViewModel
 
 
 @AndroidEntryPoint

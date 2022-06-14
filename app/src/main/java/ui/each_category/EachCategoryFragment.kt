@@ -2,6 +2,7 @@ package ui.each_category
 
 import adapter.CategoryAdapter
 import adapter.EachItemAdapter
+import adapter.InsideCategoryAdapter
 import adapter.SliderAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -43,12 +44,12 @@ class EachCategoryFragment : Fragment() {
 
         eachCategoryViewModel.produceItemLiveData.observe(viewLifecycleOwner) {
             if (it != null) {
-                var adapter = CategoryAdapter(this) {  }
+                var adapter = InsideCategoryAdapter(this) {  }
                 adapter.submitList(it)
                 binding.recyclerviewCategories.adapter = adapter
-                binding.recyclerviewCategories.layoutManager = LinearLayoutManager(
-                    requireContext(),
-                    LinearLayoutManager.HORIZONTAL, false)
+//                binding.recyclerviewCategories.layoutManager = LinearLayoutManager(
+//                    requireContext(),
+//                    LinearLayoutManager.HORIZONTAL, false)
             }
         }
     }

@@ -25,11 +25,11 @@ class DetailViewModel @Inject constructor(val commodityRepository: CommodityRepo
         }
     }
 
-    fun getProduceComments(id: Int) {
-        viewModelScope.launch {
-            produceCommentsLiveData.value = commodityRepository.getProduceComments(id)
-        }
-    }
+//    fun getProduceComments(id: Int) {
+//        viewModelScope.launch {
+//            produceCommentsLiveData.value = commodityRepository.getProduceComments(id)
+//        }
+//    }
 
 
     fun detCommentId(comments: ArrayList<CommentsItem>,  commentId: Int): Int{

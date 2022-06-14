@@ -17,7 +17,7 @@ class InsideCategoryAdapter(var fragment: Fragment, private var showFilmDetails:
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        val tvName = view.findViewById<TextView>(R.id.text)
+        val tvName = view.findViewById<TextView>(R.id.item_name)
     }
 
 
