@@ -117,7 +117,8 @@ class HomeFragment : Fragment() {
         }
 
     private fun goToCategory() {
-        findNavController().navigate(R.id.action_homeFragment_to_eachCategoryFragment)
+        val bundle = bundleOf("categoryId" to id)
+        findNavController().navigate(R.id.action_homeFragment_to_eachCategoryFragment2, bundle)
     }
 
     private fun goToDetailPage(id: Int) {
