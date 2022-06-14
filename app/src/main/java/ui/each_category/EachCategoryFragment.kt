@@ -39,17 +39,16 @@ class EachCategoryFragment : Fragment() {
 
 
         var itemId = requireArguments().getInt("categoryId", -1)
-        eachCategoryViewModel.getInsideOfCategory(itemId.toString())
+        eachCategoryViewModel.getInsideOfCategory(itemId)
 
 
         eachCategoryViewModel.produceItemLiveData.observe(viewLifecycleOwner) {
             if (it != null) {
-                var adapter = InsideCategoryAdapter(this) {  }
+                val manager = LinearLayoutManager(requireContext())
+                binding.recyclerviewFff.setLayoutManager(manager)
+                var adapter = InsideCategoryAdapter(this) {   }
                 adapter.submitList(it)
-                binding.recyclerviewCategories.adapter = adapter
-//                binding.recyclerviewCategories.layoutManager = LinearLayoutManager(
-//                    requireContext(),
-//                    LinearLayoutManager.HORIZONTAL, false)
+                binding.recyclerviewFff.setAdapter(adapter)
             }
         }
     }
