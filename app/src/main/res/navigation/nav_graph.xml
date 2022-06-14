@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_splash_screen" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="ui.home.HomeFragment"
+        android:name="ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -38,4 +38,8 @@
         android:id="@+id/hilt_EachCategoryFragment"
         android:name="ui.each_category.Hilt_EachCategoryFragment"
         android:label="Hilt_EachCategoryFragment" />
+    <fragment
+        android:id="@+id/hilt_HomeFragment"
+        android:name="ui.Hilt_HomeFragment"
+        android:label="Hilt_HomeFragment" />
 </navigation>
