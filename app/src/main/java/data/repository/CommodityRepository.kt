@@ -20,7 +20,7 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
         return remoteDataSource.getItemDetail(id)
     }
 
-    suspend fun getInsideOfCategory(id: String): List<ProduceItem> {
+    suspend fun getInsideOfCategory(id: Int): List<ProduceItem> {
         return remoteDataSource.getInsideOfCategory(id)
     }
 }
