@@ -59,7 +59,7 @@ class CategoryAdapter(var fragment: Fragment, private var showFilmDetails: showI
 
 
         holder.itemView.setOnClickListener {
-            showFilmDetails(0)
+            showFilmDetails(getItem(position).id)
         }
 
     }
