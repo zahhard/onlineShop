@@ -20,7 +20,7 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
         return apiService.getItemDetail(id)
     }
 
-    suspend fun getInsideOfCategory(id: String): List<ProduceItem> {
+    suspend fun getInsideOfCategory(id: Int): List<ProduceItem> {
         return apiService.getInsideOfCategory(id)
     }
 }

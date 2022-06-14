@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
                 if (it!= null){
                     val manager = LinearLayoutManager(requireContext())
                     binding.recyclerviewCategories.setLayoutManager(manager)
-                    var adapter = CategoryAdapter(this) {  goToCategory() }
+                    var adapter = CategoryAdapter(this) { id -> goToCategory(id) }
                     adapter.submitList(it)
                     binding.recyclerviewCategories.setAdapter(adapter)
                     binding.recyclerviewCategories.layoutManager = LinearLayoutManager(
@@ -116,7 +116,7 @@ class HomeFragment : Fragment() {
 
         }
 
-    private fun goToCategory() {
+    private fun goToCategory(id: Int) {
         val bundle = bundleOf("categoryId" to id)
         findNavController().navigate(R.id.action_homeFragment_to_eachCategoryFragment2, bundle)
     }
