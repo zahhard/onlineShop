@@ -12,24 +12,30 @@
         tools:layout="@layout/fragment_splash_screen" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="ui.HomeFragment"
+        android:name="ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_eachCategoryFragment"
-            app:destination="@id/eachCategoryFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_eachCategoryFragment2"
+            app:destination="@id/eachCategoryFragment2" />
+        <action
+            android:id="@+id/action_homeFragment_to_hilt_EachCategoryFragment"
+            app:destination="@id/hilt_EachCategoryFragment" />
     </fragment>
     <fragment
-        android:id="@+id/eachCategoryFragment"
-        android:name="ui.eachCategoryFragment"
-        android:label="fragment_each_category"
-        tools:layout="@layout/fragment_each_category" />
-    <fragment
         android:id="@+id/detailFragment"
-        android:name="ui.DetailFragment"
+        android:name="ui.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/eachCategoryFragment2"
+        android:name="ui.each_category.EachCategoryFragment"
+        android:label="EachCategoryFragment" />
+    <fragment
+        android:id="@+id/hilt_EachCategoryFragment"
+        android:name="ui.each_category.Hilt_EachCategoryFragment"
+        android:label="Hilt_EachCategoryFragment" />
 </navigation>

@@ -1,4 +1,4 @@
-package ui
+package ui.detail
 
 import adapter.SliderAdapter
 import android.os.Bundle

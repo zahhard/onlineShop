@@ -1,4 +1,4 @@
-package ui
+package ui.detail
 
 import adapter.CategoryAdapter
 import androidx.lifecycle.MutableLiveData

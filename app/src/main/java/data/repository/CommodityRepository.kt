@@ -1,7 +1,6 @@
 package data.repository
 
 import model.Category
-import model.Comments
 import model.Produce
 import model.ProduceItem
 import javax.inject.Inject
@@ -21,8 +20,7 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
         return remoteDataSource.getItemDetail(id)
     }
 
-
-    suspend fun getProduceComments(id: Int): Comments {
-        return remoteDataSource.getProduceComments(id)
+    suspend fun getInsideOfCategory(id: String): List<ProduceItem> {
+        return remoteDataSource.getInsideOfCategory(id)
     }
 }
