@@ -30,4 +30,12 @@ interface ApiService {
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : ProduceItem
+
+
+    @GET("products")
+    suspend fun getInsideOfCategory(
+        @Query(value = "category") id : String,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : List<ProduceItem>
 }
