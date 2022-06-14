@@ -14,7 +14,7 @@ class EachCategoryViewModel @Inject constructor(val commodityRepository: Commodi
 
     var produceItemLiveData = MutableLiveData<List<ProduceItem>>()
 
-    fun getInsideOfCategory(id: String) {
+    fun getInsideOfCategory(id: Int) {
         viewModelScope.launch {
             produceItemLiveData.value = commodityRepository.getInsideOfCategory(id)
         }
