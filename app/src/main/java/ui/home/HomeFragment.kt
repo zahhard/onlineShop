@@ -18,12 +18,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import model.Category
 import model.ProduceItem
 import ui.home.HomeViewModel
+import java.text.FieldPosition
 
 
 @AndroidEntryPoint
@@ -56,6 +60,12 @@ class HomeFragment : Fragment() {
             }
             binding.viewPagerImageSlider.adapter =
                 SliderAdapter(this, listOfImages , binding.viewPagerImageSlider)
+            binding.viewPagerImageSlider.clipToPadding = false
+            binding.viewPagerImageSlider.clipChildren = false
+            binding.viewPagerImageSlider.offscreenPageLimit = 3
+            binding.viewPagerImageSlider.getChildAt(0).overScrollMode=RecyclerView.OVER_SCROLL_NEVER
+            var compositePageTransformer = CompositePageTransformer()
+            compositePageTransformer.addTransformer(MarginPageTransformer(40))
         }
 
        checkInternetConnection()

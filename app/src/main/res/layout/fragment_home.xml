@@ -50,7 +50,7 @@
             android:id="@+id/viewPagerImageSlider"
             android:layout_width="300dp"
             android:layout_gravity="center"
-            android:layout_height="300dp" />
+            android:layout_height="130dp" />
 
         <TextView
             android:layout_width="wrap_content"
