@@ -40,7 +40,7 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+//
         var itemId = requireArguments().getInt("filmId", -1)
         detailViewModel.getItemDetail(itemId)
         observeProduceItem()

@@ -38,4 +38,8 @@
         android:id="@+id/hilt_EachCategoryFragment"
         android:name="ui.each_category.Hilt_EachCategoryFragment"
         android:label="Hilt_EachCategoryFragment" />
+    <fragment
+        android:id="@+id/hilt_HomeFragment"
+        android:name="ui.Hilt_HomeFragment"
+        android:label="Hilt_HomeFragment" />
 </navigation>
