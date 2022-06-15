@@ -8,10 +8,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentEachCategoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,10 +49,15 @@ class EachCategoryFragment : Fragment() {
             if (it != null) {
                 val manager = LinearLayoutManager(requireContext())
                 binding.recyclerviewFff.setLayoutManager(manager)
-                var adapter = InsideCategoryAdapter(this) {   }
+                var adapter = InsideCategoryAdapter(this) { id -> goToDetailPage(id) }
                 adapter.submitList(it)
                 binding.recyclerviewFff.setAdapter(adapter)
             }
         }
+    }
+
+    private fun goToDetailPage(id: Int) {
+        val bundle = bundleOf("filmId" to id)
+        findNavController().navigate(R.id.action_eachCategoryFragment2_to_detailFragment, bundle)
     }
 }
