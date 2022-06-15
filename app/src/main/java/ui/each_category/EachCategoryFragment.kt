@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentEachCategoryBinding
 import dagger.hilt.android.AndroidEntryPoint
+import model.ProduceItem
 
 
 @AndroidEntryPoint
@@ -40,20 +41,25 @@ class EachCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeAll()
+    }
 
+    private fun observeAll() {
         var itemId = requireArguments().getInt("categoryId", -1)
         eachCategoryViewModel.getInsideOfCategory(itemId)
-
-
         eachCategoryViewModel.produceItemLiveData.observe(viewLifecycleOwner) {
             if (it != null) {
-                val manager = LinearLayoutManager(requireContext())
-                binding.recyclerviewFff.setLayoutManager(manager)
-                var adapter = InsideCategoryAdapter(this) { id -> goToDetailPage(id) }
-                adapter.submitList(it)
-                binding.recyclerviewFff.setAdapter(adapter)
+                serRecyclerView(it)
             }
         }
+    }
+
+    private fun serRecyclerView(it: List<ProduceItem>?) {
+        val manager = LinearLayoutManager(requireContext())
+        binding.recyclerviewFff.setLayoutManager(manager)
+        var adapter = InsideCategoryAdapter(this) { id -> goToDetailPage(id) }
+        adapter.submitList(it)
+        binding.recyclerviewFff.setAdapter(adapter)
     }
 
     private fun goToDetailPage(id: Int) {
