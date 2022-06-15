@@ -2,6 +2,7 @@ package ui
 
 import adapter.CategoryAdapter
 import adapter.EachItemAdapter
+import adapter.SliderAdapter
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -30,6 +31,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     val homeViewModel: HomeViewModel by viewModels()
+    private var listOfImages = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +48,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        homeViewModel.getItemDetail()
+        homeViewModel.specialProduceLiveData.observe(viewLifecycleOwner){
+            for (image in it.images){
+                listOfImages.add(image.src)
+            }
+            binding.viewPagerImageSlider.adapter =
+                SliderAdapter(this, listOfImages , binding.viewPagerImageSlider)
+        }
 
        checkInternetConnection()
     }
