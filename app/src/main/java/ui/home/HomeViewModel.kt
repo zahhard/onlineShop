@@ -17,6 +17,7 @@ class HomeViewModel @Inject constructor(val commodityRepository: CommodityReposi
     var produceLiveDataPopular = MutableLiveData<List<ProduceItem>>()
     var produceLiveDataRating = MutableLiveData<List<ProduceItem>>()
     var produceLiveDataNew = MutableLiveData<List<ProduceItem>>()
+    var specialProduceLiveData= MutableLiveData<ProduceItem>()
 
     fun getCategoryList(){
         viewModelScope.launch {
@@ -39,6 +40,12 @@ class HomeViewModel @Inject constructor(val commodityRepository: CommodityReposi
     fun getProduceOrderByDate(){
         viewModelScope.launch {
             produceLiveDataNew.value = commodityRepository.getProduceOrderByPopularity("date")
+        }
+    }
+
+    fun getItemDetail() {
+        viewModelScope.launch {
+            specialProduceLiveData.value = commodityRepository.getItemDetail(608)
         }
     }
 }
