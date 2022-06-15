@@ -38,4 +38,12 @@ interface ApiService {
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : List<ProduceItem>
+
+
+    @GET("products")
+    suspend fun search(
+        @Query(value = "search") searchParam : String,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : List<ProduceItem>
 }
