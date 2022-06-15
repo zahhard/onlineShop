@@ -56,10 +56,10 @@ class EachCategoryFragment : Fragment() {
 
     private fun serRecyclerView(it: List<ProduceItem>?) {
         val manager = LinearLayoutManager(requireContext())
-        binding.recyclerviewFff.setLayoutManager(manager)
+        binding.recyclerviewFff.layoutManager = manager
         var adapter = InsideCategoryAdapter(this) { id -> goToDetailPage(id) }
         adapter.submitList(it)
-        binding.recyclerviewFff.setAdapter(adapter)
+        binding.recyclerviewFff.adapter = adapter
     }
 
     private fun goToDetailPage(id: Int) {
