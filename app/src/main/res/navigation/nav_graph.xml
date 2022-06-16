@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_homeFragment_to_hilt_EachCategoryFragment"
             app:destination="@id/hilt_EachCategoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -46,4 +49,9 @@
         android:id="@+id/hilt_HomeFragment"
         android:name="ui.Hilt_HomeFragment"
         android:label="Hilt_HomeFragment" />
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="ui.search_result.SearchResultFragment"
+        android:label="fragment_search_result"
+        tools:layout="@layout/fragment_search_result" />
 </navigation>
