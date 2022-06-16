@@ -34,12 +34,11 @@ import java.text.FieldPosition
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    val homeViewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
     private var listOfImages = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -53,22 +52,40 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeSpecialProduce()
+        checkInternetConnection()
+        search()
+        
+    }
+
+    private fun search() {
+        binding.searchButton.setOnClickListener {
+            if (binding.search.text != null) {
+                val bundle = bundleOf("search" to binding.search.text.toString())
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_searchResultFragment,
+                    bundle
+                )
+            }
+        }
+    }
+
+    private fun observeSpecialProduce() {
         homeViewModel.getItemDetail()
-        homeViewModel.specialProduceLiveData.observe(viewLifecycleOwner){
-            for (image in it.images){
+        homeViewModel.specialProduceLiveData.observe(viewLifecycleOwner) {
+            for (image in it.images) {
                 listOfImages.add(image.src)
             }
             binding.viewPagerImageSlider.adapter =
-                SliderAdapter(this, listOfImages , binding.viewPagerImageSlider)
+                SliderAdapter(this, listOfImages, binding.viewPagerImageSlider)
             binding.viewPagerImageSlider.clipToPadding = false
             binding.viewPagerImageSlider.clipChildren = false
             binding.viewPagerImageSlider.offscreenPageLimit = 3
-            binding.viewPagerImageSlider.getChildAt(0).overScrollMode=RecyclerView.OVER_SCROLL_NEVER
+            binding.viewPagerImageSlider.getChildAt(0).overScrollMode =
+                RecyclerView.OVER_SCROLL_NEVER
             var compositePageTransformer = CompositePageTransformer()
             compositePageTransformer.addTransformer(MarginPageTransformer(40))
         }
-
-       checkInternetConnection()
     }
 
     private fun observreAllLiveDatas() {
