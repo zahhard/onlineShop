@@ -23,4 +23,8 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
     suspend fun getInsideOfCategory(id: Int): List<ProduceItem> {
         return remoteDataSource.getInsideOfCategory(id)
     }
+
+    suspend fun search(id: String): List<ProduceItem> {
+        return remoteDataSource.search(id)
+    }
 }
