@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context="ui.setting.SettingFragment">
+
+
+    <RadioButton
+        android:id="@+id/onOrder"
+        android:layout_margin="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:text="فقط کالا های موجود" />
+
+
+    <RadioGroup
+        android:layout_marginHorizontal="15dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/expensive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:layout_weight="1"
+            android:text="گران ترین" />
+
+        <RadioButton
+            android:id="@+id/cheep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:layout_weight="1"
+            android:text="ارزان ترین" />
+
+        <RadioButton
+            android:id="@+id/today"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:layout_weight="1"
+            android:text="جدید ترین" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="محدوده قیمت"
+        android:textSize="18sp"
+        android:layout_gravity="right"
+        android:layout_margin="15dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="1000000000"
+        android:layout_marginHorizontal="15dp"
+        android:max="1000000000" />
+
+    <TextView
+        android:id="@+id/seekbar_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:text="1000000000"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <Button
+        android:layout_marginVertical="20dp"
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ثبت"
+        android:layout_gravity="bottom"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="30sp"
+        app:cornerRadius="10dp"/>
+
+</LinearLayout>
