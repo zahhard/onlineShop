@@ -14,10 +14,18 @@ import javax.inject.Inject
 class SearchResultViewModel @Inject constructor(val commodityRepository: CommodityRepository) : ViewModel() {
 
     var produceLiveDataNew = MutableLiveData<List<ProduceItem>>()
+    var text = MutableLiveData<String>()
 
     fun search(text: String){
         viewModelScope.launch {
             produceLiveDataNew.value = commodityRepository.search(text)
+        }
+    }
+
+
+    fun filter(id: String, maxPrice: String, orderBy: String, onSale: String){
+        viewModelScope.launch {
+            produceLiveDataNew.value = commodityRepository.filter(id, maxPrice, orderBy, onSale)
         }
     }
 }
