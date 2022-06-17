@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="exchange_array">
+        <item>مرتبط ترین</item>
+        <item>گران ترین</item>
+        <item>ارزان ترین</item>
+    </string-array>
+</resources>
