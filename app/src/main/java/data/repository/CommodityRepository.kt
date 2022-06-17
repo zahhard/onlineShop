@@ -27,4 +27,8 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
     suspend fun search(id: String): List<ProduceItem> {
         return remoteDataSource.search(id)
     }
+
+    suspend fun filter(id: String, maxPrice: String, orderBy: String, onSale: String): List<ProduceItem> {
+        return remoteDataSource.filter( id, maxPrice, orderBy, onSale )
+    }
 }
