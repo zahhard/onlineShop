@@ -46,4 +46,15 @@ interface ApiService {
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : List<ProduceItem>
+
+
+    @GET("products")
+    suspend fun filter(
+        @Query(value = "search") searchParam : String,
+        @Query(value = "max_price") maxPrice : String,
+        @Query(value = "orderby") orderby : String,
+        @Query(value = "on_sale") onSale : String,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : List<ProduceItem>
 }
