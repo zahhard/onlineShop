@@ -5,6 +5,7 @@
     app:cardCornerRadius="10dp"
     android:layout_margin="5dp"
     app:cardBackgroundColor="#E0E0E0"
+    android:id="@+id/cardView"
     android:layout_height="wrap_content">
 
     <LinearLayout

@@ -52,9 +52,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeSpecialProduce()
         checkInternetConnection()
-        search()
         
     }
 
@@ -71,21 +69,26 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeSpecialProduce() {
-        homeViewModel.getItemDetail()
-        homeViewModel.specialProduceLiveData.observe(viewLifecycleOwner) {
-            for (image in it.images) {
-                listOfImages.add(image.src)
+        if (checkForInternet(requireContext())){
+            homeViewModel.getItemDetail()
+            homeViewModel.specialProduceLiveData.observe(viewLifecycleOwner) {
+                for (image in it.images) {
+                    listOfImages.add(image.src)
+                }
+                binding.viewPagerImageSlider.adapter =
+                    SliderAdapter(this, listOfImages, binding.viewPagerImageSlider)
+                binding.viewPagerImageSlider.clipToPadding = false
+                binding.viewPagerImageSlider.clipChildren = false
+                binding.viewPagerImageSlider.offscreenPageLimit = 3
+                binding.viewPagerImageSlider.getChildAt(0).overScrollMode =
+                    RecyclerView.OVER_SCROLL_NEVER
+                var compositePageTransformer = CompositePageTransformer()
+                compositePageTransformer.addTransformer(MarginPageTransformer(40))
             }
-            binding.viewPagerImageSlider.adapter =
-                SliderAdapter(this, listOfImages, binding.viewPagerImageSlider)
-            binding.viewPagerImageSlider.clipToPadding = false
-            binding.viewPagerImageSlider.clipChildren = false
-            binding.viewPagerImageSlider.offscreenPageLimit = 3
-            binding.viewPagerImageSlider.getChildAt(0).overScrollMode =
-                RecyclerView.OVER_SCROLL_NEVER
-            var compositePageTransformer = CompositePageTransformer()
-            compositePageTransformer.addTransformer(MarginPageTransformer(40))
         }
+        else
+            checkInternetConnection()
+
     }
 
     private fun observreAllLiveDatas() {
@@ -101,17 +104,17 @@ class HomeFragment : Fragment() {
         }
         homeViewModel.produceLiveDataPopular.observe(viewLifecycleOwner) {
             if (it != null) {
-                setRecyclerView(it, binding.topRecyclerviewPopular)
+                setRecyclerView(it, binding.topRecyclerviewPopular, "#A3E0C3")
             }
         }
         homeViewModel.produceLiveDataRating.observe(viewLifecycleOwner) {
             if (it != null) {
-                setRecyclerView(it, binding.topRecyclerviewBest)
+                setRecyclerView(it, binding.topRecyclerviewBest, "#E4C8AF")
             }
         }
         homeViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
             if (it != null) {
-                setRecyclerView(it, binding.topRecyclerviewNew)
+                setRecyclerView(it, binding.topRecyclerviewNew, "#CDCFEE")
             }
         }
     }
@@ -128,10 +131,10 @@ class HomeFragment : Fragment() {
         )
     }
 
-    private fun setRecyclerView(it: List<ProduceItem>?, recyclerView: RecyclerView) {
+    private fun setRecyclerView(it: List<ProduceItem>?, recyclerView: RecyclerView, color: String) {
         val manager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = manager
-        var adapter = EachItemAdapter(this) { id -> goToDetailPage(id) }
+        var adapter = EachItemAdapter(this,{ id -> goToDetailPage(id) }, color )
         adapter.submitList(it)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(
@@ -172,6 +175,8 @@ class HomeFragment : Fragment() {
     private fun checkInternetConnection(){
         if (checkForInternet(requireContext())) {
             observreAllLiveDatas()
+            observeSpecialProduce()
+            search()
         }
         else
         AlertDialog.Builder(requireContext())

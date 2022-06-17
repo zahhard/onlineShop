@@ -71,9 +71,9 @@
         <androidx.viewpager2.widget.ViewPager2
             android:layout_marginVertical="15dp"
             android:id="@+id/viewPagerImageSlider"
-            android:layout_width="300dp"
+            android:layout_width="400dp"
             android:layout_gravity="center"
-            android:layout_height="130dp" />
+            android:layout_height="180dp" />
 
         <TextView
             android:layout_width="wrap_content"

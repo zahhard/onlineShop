@@ -19,7 +19,7 @@ import data.network.NetworkParams
 import model.Category
 import model.ProduceItem
 
-class EachItemAdapter(var fragment: Fragment, private var showFilmDetails: showInsideOfCategory) :
+class EachItemAdapter(var fragment: Fragment, private var showFilmDetails: showInsideOfCategory, var color : String) :
     ListAdapter<ProduceItem, EachItemAdapter.ViewHolder>(DiffCallback) {
 
 
@@ -28,6 +28,7 @@ class EachItemAdapter(var fragment: Fragment, private var showFilmDetails: showI
         val imageView = view.findViewById<ImageView>(R.id.imageview)
         val tvPrice = view.findViewById<TextView>(R.id.tvprice)
         val tvName = view.findViewById<TextView>(R.id.tv_name)
+        val cardView = view.findViewById<CardView>(R.id.cardView)
     }
 
 
@@ -56,6 +57,7 @@ class EachItemAdapter(var fragment: Fragment, private var showFilmDetails: showI
         holder.itemView.setOnClickListener {
             showFilmDetails(getItem(position).id)
         }
+        holder.cardView.setCardBackgroundColor(Color.parseColor(color))
 
     }
 
