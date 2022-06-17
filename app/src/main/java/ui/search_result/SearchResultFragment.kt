@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
@@ -36,10 +37,31 @@ class SearchResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val text = requireArguments().getString("search", "")
-        searchResultViewModel.search(text)
 
-        searchResultViewModel.produceLiveDataNew.observe(viewLifecycleOwner){
+        val onSale = requireArguments().getBoolean("on_sale", true)
+        val orderBy = requireArguments().getString("orderBy", "id")
+        val maxPrice = requireArguments().getString("max_price", "10000000000")
+        searchResultViewModel.filter(searchResultViewModel.text.value.toString(), maxPrice, orderBy, onSale.toString())
+
+        setSearchResult()
+        filter()
+
+
+    }
+
+    private fun filter() {
+        binding.filter.setOnClickListener {
+            findNavController().navigate(R.id.action_searchResultFragment_to_settingFragment)
+        }
+    }
+
+    private fun setSearchResult() {
+        searchResultViewModel.text.observe(viewLifecycleOwner) {
+            requireArguments().getString("search", "")
+        }
+        searchResultViewModel.search(searchResultViewModel.text.value.toString())
+
+        searchResultViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
             val manager = LinearLayoutManager(requireContext())
             binding.recyclerview.layoutManager = manager
             var adapter = InsideCategoryAdapter(this) {// id -> goToCategory(id)
