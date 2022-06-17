@@ -27,4 +27,8 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
     suspend fun search(id: String): List<ProduceItem> {
         return apiService.search(id)
     }
+
+    suspend fun filter(id: String, maxPrice: String, orderBy: String, onSale: String): List<ProduceItem> {
+        return apiService.filter( id, maxPrice, orderBy, onSale )
+    }
 }
