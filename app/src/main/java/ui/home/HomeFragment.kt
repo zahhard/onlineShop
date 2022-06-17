@@ -3,10 +3,6 @@ package ui
 import adapter.CategoryAdapter
 import adapter.EachItemAdapter
 import adapter.SliderAdapter
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,14 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
-import androidx.viewpager2.widget.ViewPager2
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import model.Category
+import model.CheckInternetConnection
 import model.ProduceItem
 import ui.home.HomeViewModel
-import java.text.FieldPosition
 
 
 @AndroidEntryPoint
@@ -53,7 +48,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         checkInternetConnection()
-        
+
     }
 
     private fun search() {
@@ -69,26 +64,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeSpecialProduce() {
-        if (checkForInternet(requireContext())){
-            homeViewModel.getItemDetail()
-            homeViewModel.specialProduceLiveData.observe(viewLifecycleOwner) {
-                for (image in it.images) {
-                    listOfImages.add(image.src)
-                }
-                binding.viewPagerImageSlider.adapter =
-                    SliderAdapter(this, listOfImages, binding.viewPagerImageSlider)
-                binding.viewPagerImageSlider.clipToPadding = false
-                binding.viewPagerImageSlider.clipChildren = false
-                binding.viewPagerImageSlider.offscreenPageLimit = 3
-                binding.viewPagerImageSlider.getChildAt(0).overScrollMode =
-                    RecyclerView.OVER_SCROLL_NEVER
-                var compositePageTransformer = CompositePageTransformer()
-                compositePageTransformer.addTransformer(MarginPageTransformer(40))
+        homeViewModel.getItemDetail()
+        homeViewModel.specialProduceLiveData.observe(viewLifecycleOwner) {
+            for (image in it.images) {
+                listOfImages.add(image.src)
             }
+            binding.viewPagerImageSlider.adapter =
+                SliderAdapter(this, listOfImages, binding.viewPagerImageSlider)
+            binding.viewPagerImageSlider.clipToPadding = false
+            binding.viewPagerImageSlider.clipChildren = false
+            binding.viewPagerImageSlider.offscreenPageLimit = 3
+            binding.viewPagerImageSlider.getChildAt(0).overScrollMode =
+                RecyclerView.OVER_SCROLL_NEVER
+            var compositePageTransformer = CompositePageTransformer()
+            compositePageTransformer.addTransformer(MarginPageTransformer(40))
         }
-        else
-            checkInternetConnection()
-
     }
 
     private fun observreAllLiveDatas() {
@@ -134,7 +124,7 @@ class HomeFragment : Fragment() {
     private fun setRecyclerView(it: List<ProduceItem>?, recyclerView: RecyclerView, color: String) {
         val manager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = manager
-        var adapter = EachItemAdapter(this,{ id -> goToDetailPage(id) }, color )
+        var adapter = EachItemAdapter(this, { id -> goToDetailPage(id) }, color)
         adapter.submitList(it)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(
@@ -153,37 +143,17 @@ class HomeFragment : Fragment() {
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 
-    private fun checkForInternet(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val network = connectivityManager.activeNetwork ?: return false
-            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-            return when {
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                else -> false
-            }
-        } else {
-            @Suppress("DEPRECATION") val networkInfo =
-                connectivityManager.activeNetworkInfo ?: return false
-            @Suppress("DEPRECATION")
-            return networkInfo.isConnected
-        }
-    }
-
-    private fun checkInternetConnection(){
-        if (checkForInternet(requireContext())) {
+    private fun checkInternetConnection() {
+        if (CheckInternetConnection().checkForInternet(requireContext())) {
             observreAllLiveDatas()
             observeSpecialProduce()
             search()
-        }
-        else
-        AlertDialog.Builder(requireContext())
-            .setTitle("Error")
-            .setMessage("Check your internet connection! ")
-            .setPositiveButton("ok") { _, _ -> checkInternetConnection() }
-            .setCancelable(false)
-            .show()
+        } else
+            AlertDialog.Builder(requireContext())
+                .setTitle("Error")
+                .setMessage("Check your internet connection! ")
+                .setPositiveButton("ok") { _, _ -> checkInternetConnection() }
+                .setCancelable(false)
+                .show()
     }
 }
