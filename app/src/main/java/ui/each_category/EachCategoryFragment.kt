@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentEachCategoryBinding
 import dagger.hilt.android.AndroidEntryPoint
+import model.CheckInternetConnection
 import model.ProduceItem
 
 
@@ -41,7 +43,8 @@ class EachCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeAll()
+        checkInternetConnection()
+
     }
 
     private fun observeAll() {
@@ -65,5 +68,17 @@ class EachCategoryFragment : Fragment() {
     private fun goToDetailPage(id: Int) {
         val bundle = bundleOf("filmId" to id)
         findNavController().navigate(R.id.action_eachCategoryFragment2_to_detailFragment, bundle)
+    }
+
+    private fun checkInternetConnection() {
+        if (CheckInternetConnection().checkForInternet(requireContext())) {
+            observeAll()
+        } else
+            AlertDialog.Builder(requireContext())
+                .setTitle("Error")
+                .setMessage("Check your internet connection! ")
+                .setPositiveButton("ok") { _, _ -> checkInternetConnection() }
+                .setCancelable(false)
+                .show()
     }
 }

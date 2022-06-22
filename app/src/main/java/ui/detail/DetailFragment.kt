@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.onlineshop.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import model.CheckInternetConnection
 import model.CommentsItem
 import model.ProduceItem
 
@@ -40,7 +42,10 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//
+        checkInternetConnection()
+    }
+
+    private fun init() {
         var itemId = requireArguments().getInt("filmId", -1)
         detailViewModel.getItemDetail(itemId)
         observeProduceItem()
@@ -77,5 +82,17 @@ class DetailFragment : Fragment() {
             category += itemCategory.name
             category += " / "
         }
+    }
+
+    private fun checkInternetConnection() {
+        if (CheckInternetConnection().checkForInternet(requireContext())) {
+            init()
+        } else
+            AlertDialog.Builder(requireContext())
+                .setTitle("Error")
+                .setMessage("Check your internet connection! ")
+                .setPositiveButton("ok") { _, _ -> checkInternetConnection() }
+                .setCancelable(false)
+                .show()
     }
 }

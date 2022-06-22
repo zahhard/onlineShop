@@ -41,7 +41,7 @@ class SearchResultFragment : Fragment() {
         val onSale = requireArguments().getBoolean("on_sale", true)
         val orderBy = requireArguments().getString("orderBy", "id")
         val maxPrice = requireArguments().getString("max_price", "10000000000")
-        searchResultViewModel.filter(searchResultViewModel.text.value.toString(), maxPrice, orderBy, onSale.toString())
+//        searchResultViewModel.filter(searchResultViewModel.text.value.toString(), maxPrice, orderBy, onSale.toString())
 
         setSearchResult()
         filter()
