@@ -3,6 +3,8 @@ package ui
 import adapter.CategoryAdapter
 import adapter.EachItemAdapter
 import adapter.SliderAdapter
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +33,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
     private var listOfImages = ArrayList<String>()
+    lateinit var ppreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,17 +51,20 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         checkInternetConnection()
+        ppreferences = requireActivity().getSharedPreferences("search", Context.MODE_PRIVATE)
 
     }
 
     private fun search() {
         binding.searchButton.setOnClickListener {
             if (binding.search.text != null) {
-                val bundle = bundleOf("search" to binding.search.text.toString())
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_searchResultFragment,
-                    bundle
-                )
+
+                val editor: SharedPreferences.Editor = ppreferences.edit()
+                editor.clear()
+                editor.putString("search_value", binding.search.text.toString())
+                editor.apply()
+
+                findNavController().navigate( R.id.action_homeFragment_to_searchResultFragment )
             }
         }
     }
