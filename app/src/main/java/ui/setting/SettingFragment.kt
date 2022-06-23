@@ -56,9 +56,9 @@ class SettingFragment : Fragment() {
             if (binding.cheep.isChecked)
                 orderBy = "cheep"
             if (binding.expensive.isChecked)
-                orderBy = "expensive"
+                orderBy = "price"
             if (binding.today.isChecked)
-                orderBy = "date"
+                orderBy = "price"
 
 
             val editor: SharedPreferences.Editor = ppreferences.edit()
