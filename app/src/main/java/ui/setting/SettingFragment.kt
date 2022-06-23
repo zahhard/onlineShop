@@ -1,5 +1,7 @@
 package ui.setting
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +21,7 @@ class SettingFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingBinding
     private val settingViewModel : SettingViewModel by viewModels()
+    lateinit var ppreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,8 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ppreferences = requireActivity().getSharedPreferences("search", Context.MODE_PRIVATE)
 
 
         binding.seekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
@@ -56,8 +61,13 @@ class SettingFragment : Fragment() {
                 orderBy = "date"
 
 
-            var bundle = bundleOf("on_sale" to binding.onOrder.isChecked, "orderBy" to orderBy, "max_price" to binding.seekbarText.text)
-            findNavController().navigate(R.id.action_settingFragment_to_searchResultFragment, bundle)
+            val editor: SharedPreferences.Editor = ppreferences.edit()
+            editor.putBoolean("on_sale", binding.onOrder.isChecked)
+            editor.putString("orderBy", orderBy)
+            editor.putString("max_price", binding.seekbarText.text.toString())
+            editor.apply()
+
+            findNavController().navigate(R.id.action_settingFragment_to_searchResultFragment)
 
         }
 

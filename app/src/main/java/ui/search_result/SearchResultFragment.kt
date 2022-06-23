@@ -2,6 +2,8 @@ package ui.search_result
 
 import adapter.CategoryAdapter
 import adapter.InsideCategoryAdapter
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,6 +23,7 @@ class SearchResultFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchResultBinding
     private val searchResultViewModel: SearchResultViewModel by viewModels()
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +41,15 @@ class SearchResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val onSale = requireArguments().getBoolean("on_sale", true)
-        val orderBy = requireArguments().getString("orderBy", "id")
-        val maxPrice = requireArguments().getString("max_price", "10000000000")
-//        searchResultViewModel.filter(searchResultViewModel.text.value.toString(), maxPrice, orderBy, onSale.toString())
+        sharedPreferences = requireActivity().getSharedPreferences("search", Context.MODE_PRIVATE)
+        var searchValue = sharedPreferences.getString("search_value", "").toString()
+        var onSale = sharedPreferences.getBoolean("on_sale", false).toString()
+        var orderBy = sharedPreferences.getString("orderBy", "id").toString()
+        var maxPrice = sharedPreferences.getString("max_price", "1000000000000000").toString()
 
-        setSearchResult()
+        searchResultViewModel.filter(searchValue, maxPrice, orderBy, onSale)
+
+        setSearchResult(searchValue)
         filter()
 
 
@@ -55,12 +61,8 @@ class SearchResultFragment : Fragment() {
         }
     }
 
-    private fun setSearchResult() {
-        searchResultViewModel.text.observe(viewLifecycleOwner) {
-            requireArguments().getString("search", "")
-        }
-        searchResultViewModel.search(searchResultViewModel.text.value.toString())
-
+    private fun setSearchResult(searchValue: String) {
+        searchResultViewModel.search(searchValue)
         searchResultViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
             val manager = LinearLayoutManager(requireContext())
             binding.recyclerview.layoutManager = manager
@@ -70,5 +72,4 @@ class SearchResultFragment : Fragment() {
             binding.recyclerview.adapter = adapter
         }
     }
-
 }
