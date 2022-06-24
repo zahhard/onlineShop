@@ -1,6 +1,8 @@
 package data.repository
 
+import android.util.Log
 import model.Category
+import model.Data
 import model.Produce
 import model.ProduceItem
 import javax.inject.Inject
@@ -30,5 +32,9 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
 
     suspend fun filter(id: String, maxPrice: String, orderBy: String, onSale: String): List<ProduceItem> {
         return remoteDataSource.filter( id, maxPrice, orderBy, onSale )
+    }
+
+    suspend fun register(user : Data) : Data {
+        return remoteDataSource.register(user)
     }
 }
