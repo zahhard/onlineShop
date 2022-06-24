@@ -32,7 +32,11 @@
         android:id="@+id/detailFragment"
         android:name="ui.detail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <action
+            android:id="@+id/action_detailFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eachCategoryFragment2"
         android:name="ui.each_category.EachCategoryFragment"
@@ -67,4 +71,9 @@
             android:id="@+id/action_settingFragment_to_searchResultFragment"
             app:destination="@id/searchResultFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>
