@@ -1,7 +1,9 @@
 package data.repository
 
+import android.util.Log
 import data.network.ApiService
 import model.Category
+import model.Data
 import model.Produce
 import model.ProduceItem
 import javax.inject.Inject
@@ -30,5 +32,9 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
 
     suspend fun filter(id: String, maxPrice: String, orderBy: String, onSale: String): List<ProduceItem> {
         return apiService.filter( id, maxPrice, orderBy, onSale )
+    }
+
+    suspend fun register(user : Data) : Data {
+        return apiService.register(user)
     }
 }
