@@ -1,11 +1,10 @@
 package data.network
 
 import model.Category
+import model.Data
 import model.Produce
 import model.ProduceItem
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -57,4 +56,19 @@ interface ApiService {
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : List<ProduceItem>
+
+
+//    @GET("customers")
+//    suspend fun createCustomer(
+//        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+//        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+//    ) : List<ProduceItem>
+
+    @POST("customers")
+    suspend fun register(
+        @Body data : Data,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : Data
+
 }
