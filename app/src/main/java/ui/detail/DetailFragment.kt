@@ -9,6 +9,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import model.CheckInternetConnection
@@ -43,6 +45,9 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         checkInternetConnection()
+        binding.btnAddToCart.setOnClickListener {
+            findNavController().navigate(R.id.action_detailFragment_to_loginFragment)
+        }
     }
 
     private fun init() {
