@@ -1,9 +1,6 @@
 package data.network
 
-import model.Category
-import model.Data
-import model.Produce
-import model.ProduceItem
+import model.*
 import retrofit2.http.*
 
 interface ApiService {
@@ -58,17 +55,19 @@ interface ApiService {
     ) : List<ProduceItem>
 
 
-//    @GET("customers")
-//    suspend fun createCustomer(
-//        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
-//        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-//    ) : List<ProduceItem>
-
     @POST("customers")
     suspend fun register(
         @Body data : Data,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : Data
+
+
+    @POST("orders")
+    suspend fun addToCart(
+        @Body data : Order,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : Order
 
 }

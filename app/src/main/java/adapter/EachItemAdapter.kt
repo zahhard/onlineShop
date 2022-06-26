@@ -25,10 +25,10 @@ class EachItemAdapter(var fragment: Fragment, private var showFilmDetails: showI
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        val imageView = view.findViewById<ImageView>(R.id.imageview)
-        val tvPrice = view.findViewById<TextView>(R.id.tvprice)
-        val tvName = view.findViewById<TextView>(R.id.tv_name)
-        val cardView = view.findViewById<CardView>(R.id.cardView)
+        val imageView: ImageView = view.findViewById<ImageView>(R.id.imageview)
+        val tvPrice: TextView = view.findViewById<TextView>(R.id.tvprice)
+        val tvName: TextView = view.findViewById<TextView>(R.id.tv_name)
+        val cardView: CardView = view.findViewById<CardView>(R.id.cardView)
     }
 
 

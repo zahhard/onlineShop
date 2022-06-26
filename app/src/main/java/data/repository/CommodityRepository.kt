@@ -1,10 +1,7 @@
 package data.repository
 
 import android.util.Log
-import model.Category
-import model.Data
-import model.Produce
-import model.ProduceItem
+import model.*
 import javax.inject.Inject
 
 class CommodityRepository @Inject constructor (val localDataSource: LocalDataSource,
@@ -36,5 +33,9 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
 
     suspend fun register(user : Data) : Data {
         return remoteDataSource.register(user)
+    }
+
+    suspend fun addToCart(item : Order) : Order {
+        return remoteDataSource.addToCart(item)
     }
 }

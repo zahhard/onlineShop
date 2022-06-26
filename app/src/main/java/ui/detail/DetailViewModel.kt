@@ -10,6 +10,7 @@ import data.repository.CommodityRepository
 import kotlinx.coroutines.launch
 import model.Comments
 import model.CommentsItem
+import model.Order
 import model.ProduceItem
 import javax.inject.Inject
 
@@ -39,5 +40,12 @@ class DetailViewModel @Inject constructor(val commodityRepository: CommodityRepo
                 productId = comment.product_id
         }
         return productId
+    }
+
+
+    fun addToCart (order: Order){
+        viewModelScope.launch {
+            commodityRepository.addToCart(order)
+        }
     }
 }

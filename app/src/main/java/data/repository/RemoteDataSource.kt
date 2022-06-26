@@ -2,10 +2,7 @@ package data.repository
 
 import android.util.Log
 import data.network.ApiService
-import model.Category
-import model.Data
-import model.Produce
-import model.ProduceItem
+import model.*
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(val apiService: ApiService) {
@@ -36,5 +33,9 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
 
     suspend fun register(user : Data) : Data {
         return apiService.register(user)
+    }
+
+    suspend fun addToCart(item : Order) : Order {
+        return apiService.addToCart(item)
     }
 }

@@ -1,11 +1,14 @@
 package ui.detail
 
 import adapter.SliderAdapter
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,6 +26,7 @@ class DetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailBinding
     val detailViewModel: DetailViewModel by viewModels()
+    lateinit var sharedPreferences: SharedPreferences
     var imageCont: Int = 0
     var category: String = ""
     var comments = ArrayList<CommentsItem>()
@@ -44,9 +48,21 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sharedPreferences = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
         checkInternetConnection()
         binding.btnAddToCart.setOnClickListener {
-            findNavController().navigate(R.id.action_detailFragment_to_loginFragment)
+            if (sharedPreferences.getString("name", "").isNullOrBlank()) {
+                findNavController().navigate(R.id.action_detailFragment_to_loginFragment)
+            } else {
+
+//                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+//                editor.put("cartList", )
+//                editor.apply()
+
+                var itemId = requireArguments().getInt("filmId", -1)
+                var bundle = bundleOf("id" to itemId.toString())
+                findNavController().navigate(R.id.action_detailFragment_to_cartFragment, bundle)
+            }
         }
     }
 
