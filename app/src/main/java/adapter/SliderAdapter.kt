@@ -14,6 +14,12 @@ import model.SliderItem
 class SliderAdapter (var fragment: Fragment, var urlList: ArrayList<String>, var viewPager2: ViewPager2)
     : RecyclerView.Adapter<SliderAdapter.SliderViewHolder>() {
 
+    private val itemList: List<String> = listOf(
+        urlList.last()) +
+            urlList +
+            listOf(urlList.first()
+            )
+
     inner class SliderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var imageView = itemView.findViewById<ImageView>(R.id.imageSlider)
 
@@ -36,10 +42,11 @@ class SliderAdapter (var fragment: Fragment, var urlList: ArrayList<String>, var
     )}
 
     override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
-    holder.setImage(urlList[position] ,holder.imageView)}
+    holder.setImage(itemList[position] ,holder.imageView)}
 
     override fun getItemCount(): Int {
-    return urlList.size}
+    return itemList.count()
+    }
 
 
 }

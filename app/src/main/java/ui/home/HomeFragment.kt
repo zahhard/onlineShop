@@ -77,6 +77,7 @@ class HomeFragment : Fragment() {
             }
             binding.viewPagerImageSlider.adapter =
                 SliderAdapter(this, listOfImages, binding.viewPagerImageSlider)
+//            binding.viewPagerImageSlider.e
             binding.viewPagerImageSlider.clipToPadding = false
             binding.viewPagerImageSlider.clipChildren = false
             binding.viewPagerImageSlider.offscreenPageLimit = 3
