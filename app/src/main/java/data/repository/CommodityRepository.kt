@@ -27,8 +27,8 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
         return remoteDataSource.search(id)
     }
 
-    suspend fun filter(id: String, maxPrice: String, orderBy: String, onSale: String): List<ProduceItem> {
-        return remoteDataSource.filter( id, maxPrice, orderBy, onSale )
+    suspend fun filter(id: String, maxPrice: String, attribute: String, attributeTerm: List<String>): List<ProduceItem> {
+        return remoteDataSource.filter( id, maxPrice, attribute, attributeTerm )
     }
 
     suspend fun register(user : Data) : Data {
@@ -37,5 +37,13 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
 
     suspend fun addToCart(item : Order) : Order {
         return remoteDataSource.addToCart(item)
+    }
+
+    suspend fun getColors(  ) : List<Color2> {
+        return remoteDataSource.getColors()
+    }
+
+    suspend fun getSize(  ) : List<Size2> {
+        return remoteDataSource.getSize()
     }
 }
