@@ -1,5 +1,6 @@
 package data.repository
 
+import android.media.AudioAttributes
 import android.util.Log
 import data.network.ApiService
 import model.*
@@ -27,8 +28,8 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
         return apiService.search(id)
     }
 
-    suspend fun filter(id: String, maxPrice: String, orderBy: String, onSale: String): List<ProduceItem> {
-        return apiService.filter( id, maxPrice, orderBy, onSale )
+    suspend fun filter(id: String, maxPrice: String, attribute: String, attributeTerm: List<String>): List<ProduceItem> {
+        return apiService.filter( id, maxPrice, attribute, attributeTerm )
     }
 
     suspend fun register(user : Data) : Data {
@@ -37,5 +38,13 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
 
     suspend fun addToCart(item : Order) : Order {
         return apiService.addToCart(item)
+    }
+
+    suspend fun getColors(  ) : List<Color2> {
+        return apiService.getColors()
+    }
+
+    suspend fun getSize(): List<Size2> {
+        return apiService.getSize()
     }
 }
