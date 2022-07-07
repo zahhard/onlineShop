@@ -48,13 +48,14 @@ class SearchResultFragment : Fragment() {
         var maxPrice = sharedPreferences.getString("max_price", "10000000").toString()
         var id = sharedPreferences.getInt("colorId", -1)
         var sizeId = sharedPreferences.getInt("sizeId", -1)
+        var orderBy = sharedPreferences.getString("orderBy", "")
 
         Log.d("aaa", id.toString() + " " + sizeId.toString())
 
         if (id != -1)
-            searchResultViewModel.filter(searchValue, maxPrice, "","color", listOf(id.toString()))
+            searchResultViewModel.filter(searchValue, maxPrice, orderBy!!,"color", listOf(id.toString()))
         if (sizeId != -1)
-            searchResultViewModel.filter(searchValue, maxPrice, "","size", listOf(sizeId.toString()))
+            searchResultViewModel.filter(searchValue, maxPrice, orderBy!!,"size", listOf(sizeId.toString()))
 
         searchResultViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
             if (it.isEmpty()){

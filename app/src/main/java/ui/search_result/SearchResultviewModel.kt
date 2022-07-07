@@ -25,7 +25,12 @@ class SearchResultViewModel @Inject constructor(val commodityRepository: Commodi
 
     fun filter(id: String, maxPrice: String, orderBy: String , attribute: String, attributeTerm: List<String>){
         viewModelScope.launch {
-            produceLiveDataNew.value = commodityRepository.filter(id, maxPrice, attribute, attributeTerm)
+            if (orderBy == "date")
+                produceLiveDataNew.value = commodityRepository.filter(id, maxPrice,"date", attribute, attributeTerm)
+            else if (orderBy == "cheep")
+                produceLiveDataNew.value = commodityRepository.filter(id, maxPrice,"price", attribute, attributeTerm).reversed()
+            else if (orderBy == "price")
+                produceLiveDataNew.value = commodityRepository.filter(id, maxPrice,"price", attribute, attributeTerm)
         }
     }
 }

@@ -28,8 +28,8 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
         return apiService.search(id)
     }
 
-    suspend fun filter(id: String, maxPrice: String, attribute: String, attributeTerm: List<String>): List<ProduceItem> {
-        return apiService.filter( id, maxPrice, attribute, attributeTerm )
+    suspend fun filter(id: String, maxPrice: String, orderBy: String, attribute: String, attributeTerm: List<String>): List<ProduceItem> {
+        return apiService.filter( id, maxPrice, orderBy, attribute, attributeTerm )
     }
 
     suspend fun register(user : Data) : Data {

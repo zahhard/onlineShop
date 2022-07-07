@@ -67,14 +67,14 @@
                     android:layoutDirection="rtl"
                     android:text="گران ترین" />
 
-                <RadioButton
-                    android:id="@+id/mostSell"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="13sp"
-                    android:layoutDirection="rtl"
-                    android:text="پرفروش ترین" />
+<!--                <RadioButton-->
+<!--                    android:id="@+id/mostSell"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:textSize="13sp"-->
+<!--                    android:layoutDirection="rtl"-->
+<!--                    android:text="پرفروش ترین" />-->
 
                 <RadioButton
                     android:id="@+id/cheep"
@@ -165,7 +165,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_margin="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="15dp"
         android:text="محدوده قیمت"
         android:textColor="@color/black"
         android:textSize="18sp" />
@@ -173,7 +174,7 @@
     <com.google.android.material.slider.Slider
         android:id="@+id/seekbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:stepSize="1000"
         android:value="10000000"
         android:valueFrom="10000"
@@ -184,10 +185,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="120dp"
         android:paddingHorizontal="35dp"
-        android:paddingVertical="7dp"
         android:text="جست و جو"
         android:textSize="18sp"
         app:cornerRadius="15dp" />

@@ -70,19 +70,16 @@ class SettingFragment : Fragment() {
             binding.sizeRecyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
         }
 
-
-        var price = binding.seekbar.value.toDouble().toString()
-
         binding.seekbar.addOnChangeListener { rangeSlider, value, fromUser ->
             editor.putString("max_price", value.toString())
             editor.apply()
         }
 
-
-
         binding.btnSearch.setOnClickListener {
 
             var orderBy =  getOrderType()
+            editor.putString("orderBy", orderBy)
+            editor.apply()
 
             findNavController().navigate(R.id.action_settingFragment_to_searchResultFragment)
 
@@ -114,7 +111,7 @@ class SettingFragment : Fragment() {
         if (binding.expensive.isChecked)
             return "price"
         if (binding.today.isChecked)
-           return "price"
+           return "date"
         return ""
     }
 }
