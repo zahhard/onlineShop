@@ -5,10 +5,12 @@ import adapter.InsideCategoryAdapter
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,11 +45,35 @@ class SearchResultFragment : Fragment() {
 
         sharedPreferences = requireActivity().getSharedPreferences("search", Context.MODE_PRIVATE)
         var searchValue = sharedPreferences.getString("search_value", "").toString()
-        var onSale = sharedPreferences.getBoolean("on_sale", false).toString()
-        var orderBy = sharedPreferences.getString("orderBy", "id").toString()
-        var maxPrice = sharedPreferences.getString("max_price", "1000000000000000").toString()
+        var maxPrice = sharedPreferences.getString("max_price", "10000000").toString()
+        var id = sharedPreferences.getInt("colorId", -1)
+        var sizeId = sharedPreferences.getInt("sizeId", -1)
 
-        searchResultViewModel.filter(searchValue, maxPrice, orderBy, onSale)
+        Log.d("aaa", id.toString() + " " + sizeId.toString())
+
+        if (id != -1)
+            searchResultViewModel.filter(searchValue, maxPrice, "","color", listOf(id.toString()))
+        if (sizeId != -1)
+            searchResultViewModel.filter(searchValue, maxPrice, "","size", listOf(sizeId.toString()))
+
+        searchResultViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
+            if (it.isEmpty()){
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Error")
+                    .setMessage("Check your internet connection! ")
+                    .setPositiveButton("ok") { _, _ -> }
+                    .setCancelable(false)
+                    .show()
+
+            }
+            val manager = LinearLayoutManager(requireContext())
+            binding.recyclerview.layoutManager = manager
+            var adapter = InsideCategoryAdapter(this) {// id -> goToCategory(id)
+            }
+            adapter.submitList(it)
+            binding.recyclerview.adapter = adapter
+        }
+
 
         setSearchResult(searchValue)
         filter()
@@ -62,14 +88,7 @@ class SearchResultFragment : Fragment() {
     }
 
     private fun setSearchResult(searchValue: String) {
-        searchResultViewModel.search(searchValue)
-        searchResultViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
-            val manager = LinearLayoutManager(requireContext())
-            binding.recyclerview.layoutManager = manager
-            var adapter = InsideCategoryAdapter(this) {// id -> goToCategory(id)
-            }
-            adapter.submitList(it)
-            binding.recyclerview.adapter = adapter
-        }
+//        searchResultViewModel.search(searchValue)
+
     }
 }

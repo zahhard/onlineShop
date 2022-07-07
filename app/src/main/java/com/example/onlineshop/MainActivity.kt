@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -13,13 +16,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportActionBar?.hide()
-//        val imageView = findViewById<ImageView>(R.id.icon_splash_screen)
-//        val fragment = findViewById<View>(R.id.fragmentContainerView2)
-//        imageView.alpha=0f
-//        imageView.animate().setDuration(3000).alpha(1f).withEndAction {
-//            fragment.visibility=View.VISIBLE
-//            imageView.visibility=View.GONE
-//            overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
-//        }
+        val bottomNavigationViewt = findViewById<BottomNavigationView>(R.id.navigation)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment?
+        NavigationUI.setupWithNavController(bottomNavigationViewt, navHostFragment!!.navController)
     }
 }
