@@ -56,17 +56,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun search() {
-        binding.searchButton.setOnClickListener {
-            if (binding.search.text != null) {
-
-                val editor: SharedPreferences.Editor = ppreferences.edit()
-                editor.clear()
-                editor.putString("search_value", binding.search.text.toString())
-                editor.apply()
-
-                findNavController().navigate( R.id.action_homeFragment_to_searchResultFragment )
-            }
-        }
+//        binding.searchButton.setOnClickListener {
+//            if (binding.search.text != null) {
+//
+//                val editor: SharedPreferences.Editor = ppreferences.edit()
+//                editor.clear()
+//                editor.putString("search_value", binding.search.text.toString())
+//                editor.apply()
+//
+//                findNavController().navigate( R.id.action_homeFragment_to_searchResultFragment )
+//            }
+//        }
     }
 
     private fun observeSpecialProduce() {
