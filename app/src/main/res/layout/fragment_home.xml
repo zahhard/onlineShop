@@ -45,28 +45,6 @@
 <!--            android:layout_height="wrap_content"-->
 <!--            android:layout_below="@id/idSV" />-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textPersonName"
-                android:hint="جست و جو در لیما" />
-
-            <ImageButton
-                android:id="@+id/search_button"
-                android:layout_width="match_parent"
-                android:layout_weight="5"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_search_24" />
-
-        </LinearLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:layout_marginVertical="15dp"
@@ -260,10 +238,12 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/top_recyclerview_best"
-            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="5dp"
             android:layoutDirection="rtl"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="100dp"/>
 
 
     </LinearLayout>
