@@ -48,8 +48,9 @@ interface ApiService {
     suspend fun filter(
         @Query(value = "search") searchParam : String,
         @Query(value = "max_price") maxPrice : String,
-        @Query(value = "orderby") orderby : String,
-        @Query(value = "on_sale") onSale : String,
+        @Query(value = "attribute") attribute : String,
+        @Query(value = "attribute_term") attributeTerm : List<String>,
+//        @Query(value = "orderby") orderby : String,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : List<ProduceItem>
@@ -69,5 +70,18 @@ interface ApiService {
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : Order
+
+    @GET("products/attributes/3/terms")
+    suspend fun getColors(
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : List<Color2>
+
+    @GET("products/attributes/4/terms")
+    suspend fun getSize(
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : List<Size2>
+
 
 }
