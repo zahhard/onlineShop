@@ -2,8 +2,10 @@ package data.repository
 
 import android.media.AudioAttributes
 import android.util.Log
+import com.bumptech.glide.load.engine.Resource
 import data.network.ApiService
 import model.*
+import retrofit2.Response
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(val apiService: ApiService) {
@@ -46,5 +48,9 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
 
     suspend fun getSize(): List<Size2> {
         return apiService.getSize()
+    }
+
+    suspend fun getCustomerOrders(id: Int): List<Order> {
+        return apiService.getCustomerOrders(id)
     }
 }

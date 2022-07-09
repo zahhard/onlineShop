@@ -1,7 +1,9 @@
 package data.repository
 
 import android.util.Log
+import com.bumptech.glide.load.engine.Resource
 import model.*
+import retrofit2.Response
 import javax.inject.Inject
 
 class CommodityRepository @Inject constructor (val localDataSource: LocalDataSource,
@@ -45,5 +47,9 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
 
     suspend fun getSize(  ) : List<Size2> {
         return remoteDataSource.getSize()
+    }
+
+    suspend fun getCustomerOrders(id: Int): List<Order> {
+        return remoteDataSource.getCustomerOrders(id)
     }
 }

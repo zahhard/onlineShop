@@ -1,10 +1,8 @@
 package ui.detail
 
-import adapter.CategoryAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import data.repository.CommodityRepository
 import kotlinx.coroutines.launch

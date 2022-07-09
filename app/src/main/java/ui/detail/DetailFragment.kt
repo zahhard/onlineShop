@@ -15,7 +15,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentDetailBinding
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import data.network.NetworkParams
 import model.CheckInternetConnection
 import model.CommentsItem
 import model.ProduceItem
@@ -51,17 +53,20 @@ class DetailFragment : Fragment() {
         sharedPreferences = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
         checkInternetConnection()
         binding.btnAddToCart.setOnClickListener {
-            if (sharedPreferences.getString("name", "").isNullOrBlank()) {
+            if (sharedPreferences.getInt("name", -1) == -1) {
                 findNavController().navigate(R.id.action_detailFragment_to_loginFragment)
             } else {
-
-//                val editor: SharedPreferences.Editor = sharedPreferences.edit()
-//                editor.put("cartList", )
-//                editor.apply()
-
                 var itemId = requireArguments().getInt("filmId", -1)
-                var bundle = bundleOf("id" to itemId.toString())
-                findNavController().navigate(R.id.action_detailFragment_to_cartFragment, bundle)
+                NetworkParams.cartList.add(itemId)
+                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                val gson = Gson()
+                val json: String = gson.toJson(NetworkParams.cartList)
+                editor.putString("cartList", json)
+                editor.apply()
+
+                binding.btnAddToCart.isClickable = false
+//                binding.btnAddToCart.text = "به سبد افزوده شد"
+
             }
         }
     }

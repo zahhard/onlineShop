@@ -48,7 +48,8 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerImageSlider"
                 android:layout_width="400dp"
-                android:layout_height="400dp" />
+                android:layout_height="400dp" >
+            </androidx.viewpager2.widget.ViewPager2>
 
 
             <TextView

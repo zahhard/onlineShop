@@ -1,6 +1,7 @@
 package data.network
 
 import model.*
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -63,14 +64,6 @@ interface ApiService {
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : Data
 
-
-    @POST("orders")
-    suspend fun addToCart(
-        @Body data : Order,
-        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
-        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-    ) : Order
-
     @GET("products/attributes/3/terms")
     suspend fun getColors(
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
@@ -83,5 +76,34 @@ interface ApiService {
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : List<Size2>
 
+    @POST("orders")
+    suspend fun addToCart(
+        @Body data : Order,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : Order
+
+    @POST("orders/{id}")
+    suspend fun updateOrder(
+        @Path("id") id: Int,
+        @Body data : Order,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : Order
+
+    @POST("orders")
+    suspend fun getCustomerOrders(
+        @Query("customer") customerId: Int,
+        @Query("status") status: String = "pending",
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : List<Order>
+
+    @POST("orders/{id}")
+    suspend fun retrieveOrder(
+        @Path("id") id: Int,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ) : Order
 
 }

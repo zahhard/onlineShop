@@ -56,12 +56,14 @@ class SearchResultFragment : Fragment() {
             searchResultViewModel.filter(searchValue, maxPrice, orderBy!!,"color", listOf(id.toString()))
         if (sizeId != -1)
             searchResultViewModel.filter(searchValue, maxPrice, orderBy!!,"size", listOf(sizeId.toString()))
-
+        else if (id == -1 && sizeId == -1){
+            searchResultViewModel.search(searchValue)
+        }
         searchResultViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
             if (it.isEmpty()){
                 AlertDialog.Builder(requireContext())
                     .setTitle("Error")
-                    .setMessage("Check your internet connection! ")
+                    .setMessage("Empty! ")
                     .setPositiveButton("ok") { _, _ -> }
                     .setCancelable(false)
                     .show()
