@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,7 @@ import com.example.onlineshop.adapter.EachItemAdapter
 import com.example.onlineshop.adapter.SliderAdapter
 import com.example.onlineshop.data.network.NetworkParams
 import com.example.onlineshop.databinding.FragmentDetailBinding
+import com.example.onlineshop.model.ApiStatus
 import com.example.onlineshop.model.CommentsItem
 import com.example.onlineshop.model.LineItem
 import com.example.onlineshop.model.OrderResponse
@@ -52,6 +54,19 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        detailViewModel.status.observe(viewLifecycleOwner){
+            if (it == ApiStatus.LOADING){
+                val layout= binding.animationView
+                layout.isGone = false
+                binding.line1.isGone = true
+            }
+            else{
+                val layout= binding.animationView
+                layout.isGone = true
+                binding.line1.isGone = false
+            }
+        }
 
         sharedPreferences = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
         checkInternetConnection()

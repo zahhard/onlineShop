@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentHomeBinding
 import com.example.onlineshop.databinding.FragmentSearchResultBinding
+import com.example.onlineshop.model.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.onlineshop.ui.home.HomeViewModel
 import io.supercharge.shimmerlayout.ShimmerLayout
@@ -43,19 +44,21 @@ class SearchResultFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-//        binding.decelerate.startShimmer()
-    }
-
-    override fun onPause() {
-        super.onPause()
-//        binding.decelerate.stopShimmer()
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        searchResultViewModel.status.observe(viewLifecycleOwner){
+            if (it == ApiStatus.LOADING){
+                val layout= binding.animationView
+                layout.isGone = false
+                binding.line1.isGone = true
+            }
+            else{
+                val layout= binding.animationView
+                layout.isGone = true
+                binding.line1.isGone = false
+            }
+        }
 
         var orderBy = args.ordderBy
         var maxPrice = args.maxPrice
@@ -71,31 +74,19 @@ class SearchResultFragment : Fragment() {
         searchResultViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
             if (it.isEmpty()){
                 binding.tvNotFind.isGone = false
-
             }
-            val manager = LinearLayoutManager(requireContext())
-            binding.recyclerview.layoutManager = manager
-            var adapter = InsideCategoryAdapter(this) {// id -> goToCategory(id)
+            else{
+                val manager = LinearLayoutManager(requireContext())
+                binding.recyclerview.layoutManager = manager
+                var adapter = InsideCategoryAdapter(this) {}
+                adapter.submitList(it)
+                binding.recyclerview.adapter = adapter
+                binding.tvNotFind.isGone = true
             }
-            adapter.submitList(it)
-            binding.recyclerview.adapter = adapter
         }
-
-
         setSearchResult(searchValue)
-        filter()
-
-
-    }
-
-    private fun filter() {
-        binding.filter.setOnClickListener {
-            findNavController().navigate(R.id.action_searchResultFragment_to_settingFragment)
-        }
     }
 
     private fun setSearchResult(searchValue: String) {
-//        searchResultViewModel.search(searchValue)
-
     }
 }

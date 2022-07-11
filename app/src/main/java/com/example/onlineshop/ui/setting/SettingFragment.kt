@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentSettingBinding
+import com.example.onlineshop.model.ApiStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +39,20 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        settingViewModel.status.observe(viewLifecycleOwner){
+            if (it == ApiStatus.LOADING){
+                val layout= binding.animationView
+                layout.isGone = false
+                binding.line1.isGone = true
+            }
+            else{
+                val layout= binding.animationView
+                layout.isGone = true
+                binding.line1.isGone = false
+            }
+        }
 
         var orderBy = ""
         var maxPrice = ""

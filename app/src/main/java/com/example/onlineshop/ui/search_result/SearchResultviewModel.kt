@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchResultViewModel @Inject constructor(val commodityRepository: CommodityRepository) : ViewModel() {
 
-    private val status = MutableLiveData<ApiStatus>()
+    val status = MutableLiveData<ApiStatus>()
     var produceLiveDataNew = MutableLiveData<List<ProduceItem>>()
     var text = MutableLiveData<String>()
 
@@ -22,11 +22,13 @@ class SearchResultViewModel @Inject constructor(val commodityRepository: Commodi
         status.value = ApiStatus.LOADING
         viewModelScope.launch {
             produceLiveDataNew.value = commodityRepository.search(text)
+            status.value = ApiStatus.DONE
         }
     }
 
 
     fun filter(id: String, maxPrice: String, orderBy: String , attribute: String, attributeTerm: List<String>){
+        status.value = ApiStatus.LOADING
         viewModelScope.launch {
             if (orderBy == "date" || orderBy == "")
                 produceLiveDataNew.value = commodityRepository.filter(id, maxPrice,"date", attribute, attributeTerm)
@@ -34,6 +36,8 @@ class SearchResultViewModel @Inject constructor(val commodityRepository: Commodi
                 produceLiveDataNew.value = commodityRepository.filter(id, maxPrice,"price", attribute, attributeTerm).reversed()
             else if (orderBy == "price")
                 produceLiveDataNew.value = commodityRepository.filter(id, maxPrice,"price", attribute, attributeTerm)
+
+            status.value = ApiStatus.DONE
         }
     }
 }

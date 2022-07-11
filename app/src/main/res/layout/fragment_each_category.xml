@@ -2,8 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.each_category.EachCategoryFragment">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_marginVertical="25sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/animation_view"
+            app:lottie_rawRes="@raw/loading"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,190 +6,217 @@
     android:orientation="vertical"
     tools:context=".ui.setting.SettingFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="150dp"
-        android:orientation="vertical">
-
-    <LinearLayout
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="horizontal">
+        android:layout_marginVertical="25sp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
 
-        <EditText
-            android:id="@+id/search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="جست و جو در لیما"
-            android:inputType="textPersonName" />
-
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="15dp"
-        app:cardCornerRadius="15dp">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="10dp"
-                android:textStyle="bold"
-                android:layout_marginHorizontal="15dp"
-                android:text="مرتب سازس براساس :"
-                android:textSize="18sp" />
+<!--        <LinearLayout-->
+<!--            android:id="@+id/line1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:visibility="gone">-->
 
 
-            <RadioGroup
+            <LinearLayout
+                android:id="@+id/line1"
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="1dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="150dp"
+                android:orientation="vertical">
 
-                <RadioButton
-                    android:id="@+id/expensive"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="13sp"
-                    android:layoutDirection="rtl"
-                    android:text="گران ترین" />
+                    android:layout_margin="20dp"
+                    android:orientation="horizontal">
 
-<!--                <RadioButton-->
-<!--                    android:id="@+id/mostSell"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:textSize="13sp"-->
-<!--                    android:layoutDirection="rtl"-->
-<!--                    android:text="پرفروش ترین" />-->
+                    <EditText
+                        android:id="@+id/search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="جست و جو در لیما"
+                        android:inputType="textPersonName" />
 
-                <RadioButton
-                    android:id="@+id/cheep"
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="13sp"
-                    android:layoutDirection="rtl"
-                    android:text="ارزان ترین" />
+                    android:layout_margin="8dp"
+                    android:padding="15dp"
+                    app:cardCornerRadius="15dp">
 
-                <RadioButton
-                    android:id="@+id/today"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginTop="10dp"
+                            android:text="مرتب سازس براساس :"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="1dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/expensive"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layoutDirection="rtl"
+                                android:text="گران ترین"
+                                android:textSize="13sp" />
+
+                            <!--                <RadioButton-->
+                            <!--                    android:id="@+id/mostSell"-->
+                            <!--                    android:layout_width="match_parent"-->
+                            <!--                    android:layout_height="wrap_content"-->
+                            <!--                    android:layout_weight="1"-->
+                            <!--                    android:textSize="13sp"-->
+                            <!--                    android:layoutDirection="rtl"-->
+                            <!--                    android:text="پرفروش ترین" />-->
+
+                            <RadioButton
+                                android:id="@+id/cheep"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layoutDirection="rtl"
+                                android:text="ارزان ترین"
+                                android:textSize="13sp" />
+
+                            <RadioButton
+                                android:id="@+id/today"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layoutDirection="rtl"
+                                android:text="جدید ترین"
+                                android:textSize="13sp" />
+
+                        </RadioGroup>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="13sp"
-                    android:layoutDirection="rtl"
-                    android:text="جدید ترین" />
+                    android:layout_margin="8dp"
+                    android:padding="15dp"
+                    app:cardCornerRadius="15dp">
 
-            </RadioGroup>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="15dp"
-        app:cardCornerRadius="15dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="رنگ"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                android:text="رنگ"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/colorRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layoutDirection="rtl" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layoutDirection="rtl"
-                android:layout_margin="5dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/colorRecyclerView"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:padding="15dp"
+                    app:cardCornerRadius="15dp">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="15dp"
-        app:cardCornerRadius="15dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="10dp"
-                android:text="سایز"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginHorizontal="5dp"
+                            android:layout_marginTop="10dp"
+                            android:text="سایز"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layoutDirection="rtl"
-                android:layout_margin="5dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/sizeRecyclerView"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/sizeRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layoutDirection="rtl" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="15dp"
-        android:text="محدوده قیمت"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="محدوده قیمت"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stepSize="1000"
-        android:value="10000000"
-        android:valueFrom="10000"
-        android:valueTo="10000000" />
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stepSize="1000"
+                    android:value="10000000"
+                    android:valueFrom="10000"
+                    android:valueTo="10000000" />
 
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="120dp"
-        android:paddingHorizontal="35dp"
-        android:text="جست و جو"
-        android:textSize="18sp"
-        app:cornerRadius="15dp" />
+                <Button
+                    android:id="@+id/btn_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="120dp"
+                    android:paddingHorizontal="35dp"
+                    android:text="جست و جو"
+                    android:textSize="18sp"
+                    app:cornerRadius="15dp" />
 
-    </LinearLayout>
-</ScrollView>
+            </LinearLayout>
+<!--        </LinearLayout>-->
+    </ScrollView>
+
+</LinearLayout>

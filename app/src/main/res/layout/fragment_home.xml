@@ -20,7 +20,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:layout_marginVertical="15dp"
                 android:layout_width="match_parent"
-                android:background="#818181"
+                android:background="#BFBFBF"
                 android:layout_marginHorizontal="15dp"
                 android:layout_gravity="center"
                 android:layout_height="180dp" />
@@ -28,14 +28,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="13dp"
+                android:layout_margin="15dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_gravity="right"
+                android:background="#BFBFBF"
                 android:text="دسته بندی محصولات"
-                android:textColor="@color/black" />
+                android:textColor="#BFBFBF" />
 
             <LinearLayout
+                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -50,20 +52,11 @@
                     android:id="@+id/cardView"
                     android:layout_width="95dp"
                     android:layout_height="95dp"
-                    app:cardBackgroundColor="#818181"
+                    app:cardBackgroundColor="#BFBFBF"
                     app:cardCornerRadius="12dp">
 
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:layout_gravity="center"
-                    android:id="@+id/title"
-                    android:textColor="@color/black"
-                    android:layout_marginVertical="8dp"
-                    android:layout_width="95dp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="Loading" />
 
             </LinearLayout>
 
@@ -76,19 +69,10 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="95dp"
                     android:layout_height="95dp"
-                    app:cardBackgroundColor="#818181"
+                    app:cardBackgroundColor="#BFBFBF"
                     app:cardCornerRadius="12dp">
 
                 </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    android:layout_marginVertical="8dp"
-                    android:layout_width="95dp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="Loading" />
 
             </LinearLayout>
 
@@ -101,19 +85,11 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="95dp"
                     android:layout_height="95dp"
-                    app:cardBackgroundColor="#818181"
+                    app:cardBackgroundColor="#BFBFBF"
                     app:cardCornerRadius="12dp">
 
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    android:layout_marginVertical="8dp"
-                    android:layout_width="95dp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="Loading" />
 
             </LinearLayout>
 
@@ -126,24 +102,28 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="95dp"
                     android:layout_height="95dp"
-                    app:cardBackgroundColor="#818181"
+                    app:cardBackgroundColor="#BFBFBF"
                     app:cardCornerRadius="12dp">
 
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    android:layout_marginVertical="8dp"
-                    android:layout_width="95dp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="Loading" />
 
             </LinearLayout>
-            </LinearLayout>
 
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_gravity="right"
+                android:background="#BFBFBF"
+                android:text="دسته بندی محصولات"
+                android:textColor="#BFBFBF" />
             <LinearLayout
+                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -152,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:backgroundTint="#818181"
+                    android:backgroundTint="#BFBFBF"
                     app:cardCornerRadius="15dp">
 
                     <LinearLayout
@@ -161,16 +141,14 @@
                         android:orientation="vertical">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_margin="10dp"
                             android:layout_width="wrap_content"
                             app:cardBackgroundColor="@color/white"
-                            app:cardCornerRadius="10dp"
+                            app:cardCornerRadius="5dp"
                             android:layout_height="wrap_content">
 
                             <ImageView
                                 android:id="@+id/imageview"
-                                android:padding="15dp"
-                                android:background="#B8B8B8"
+                                android:background="#BFBFBF"
                                 android:layout_width="150dp"
                                 android:layout_height="150dp" />
                         </androidx.cardview.widget.CardView>
@@ -210,8 +188,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:backgroundTint="#818181"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="#BFBFBF"
                     app:cardCornerRadius="15dp">
 
                     <LinearLayout
@@ -220,15 +198,13 @@
                         android:orientation="vertical">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_margin="5dp"
                             android:layout_width="wrap_content"
                             app:cardBackgroundColor="@color/white"
                             app:cardCornerRadius="10dp"
                             android:layout_height="wrap_content">
 
                             <ImageView
-                                android:padding="15dp"
-                                android:background="#B8B8B8"
+                                android:background="#BFBFBF"
                                 android:layout_width="150dp"
                                 android:layout_height="150dp" />
                         </androidx.cardview.widget.CardView>
@@ -266,8 +242,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:backgroundTint="#818181"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="#BFBFBF"
                     app:cardCornerRadius="15dp">
 
                     <LinearLayout
@@ -276,15 +252,13 @@
                         android:orientation="vertical">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_margin="5dp"
                             android:layout_width="120dp"
                             app:cardBackgroundColor="@color/white"
                             app:cardCornerRadius="10dp"
                             android:layout_height="wrap_content">
 
                             <ImageView
-                                android:padding="15dp"
-                                android:background="#B8B8B8"
+                                android:background="#BFBFBF"
                                 android:layout_width="150dp"
                                 android:layout_height="150dp" />
                         </androidx.cardview.widget.CardView>
@@ -331,41 +305,6 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
-
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/search"-->
-<!--            android:layout_margin="20dp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="جست و جو در لیما"-->
-<!--            app:startIconDrawable="@drawable/ic_baseline_error_outline_24"-->
-<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                />-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--        <SearchView-->
-<!--            android:id="@+id/idSV"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginHorizontal="20dp"-->
-<!--            android:layout_marginVertical="10dp"-->
-<!--            android:iconifiedByDefault="false"-->
-<!--            android:padding="4dp"-->
-<!--            android:queryHint="جست و جو در لیما" />-->
-
-<!--        <ListView-->
-<!--            android:id="@+id/idLVProgrammingLanguages"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/idSV" />-->
 
 
         <androidx.viewpager2.widget.ViewPager2

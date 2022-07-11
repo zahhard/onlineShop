@@ -7,12 +7,22 @@
     android:orientation="vertical"
     tools:context=".ui.detail.DetailFragment">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_marginVertical="25sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/animation_view"
+        app:lottie_rawRes="@raw/loading"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/line1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
