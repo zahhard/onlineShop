@@ -59,5 +59,9 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
         return apiService.updateOrder(id = id, data = order)
     }
 
+    suspend fun postComment(commentsItem: CommentSent): Response<CommentsItem> {
+        return apiService.postComment(commentsItem)
+    }
+
 
 }
