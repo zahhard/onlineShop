@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="ui.SplashScreenFragment"
+        android:name="com.example.onlineshop.ui.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" />
     <fragment
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="ui.detail.DetailFragment"
+        android:name="com.example.onlineshop.ui.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <action
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/eachCategoryFragment2"
-        android:name="ui.each_category.EachCategoryFragment"
+        android:name="com.example.onlineshop.ui.each_category.EachCategoryFragment"
         android:label="EachCategoryFragment" >
         <action
             android:id="@+id/action_eachCategoryFragment2_to_detailFragment"
@@ -58,16 +58,30 @@
         android:label="Hilt_HomeFragment" />
     <fragment
         android:id="@+id/searchResultFragment"
-        android:name="ui.search_result.SearchResultFragment"
+        android:name="com.example.onlineshop.ui.search_result.SearchResultFragment"
         android:label="fragment_search_result"
         tools:layout="@layout/fragment_search_result" >
         <action
             android:id="@+id/action_searchResultFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
+        <argument android:name="colorList"
+            app:argType="string[]" />
+        <argument
+            android:name="sizeList"
+            app:argType="string[]" />
+        <argument
+            android:name="searchValue"
+            app:argType="string" />
+        <argument
+            android:name="ordderBy"
+            app:argType="string" />
+        <argument
+            android:name="maxPrice"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="ui.setting.SettingFragment"
+        android:name="com.example.onlineshop.ui.setting.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" >
         <action
@@ -76,7 +90,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="ui.login.LoginFragment"
+        android:name="com.example.onlineshop.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -85,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
-        android:name="ui.cart.CartFragment"
+        android:name="com.example.onlineshop.ui.cart.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" />
 </navigation>

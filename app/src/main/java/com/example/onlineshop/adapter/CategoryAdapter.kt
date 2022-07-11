@@ -1,0 +1,76 @@
+package com.example.onlineshop.adapter
+
+import android.graphics.Color
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.onlineshop.R
+import com.example.onlineshop.data.network.NetworkParams
+import com.example.onlineshop.model.Category
+
+typealias showInsideOfCategory = (Int) -> Unit
+
+
+class CategoryAdapter(var fragment: Fragment, private var showFilmDetails: showInsideOfCategory) :
+    ListAdapter<com.example.onlineshop.model.Category, CategoryAdapter.ViewHolder>(DiffCallback) {
+
+
+    inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        val  imageViewItemCategory = view.findViewById<ImageView>(R.id.item_category)
+        val  cardView = view.findViewById<CardView>(R.id.cardView)
+        val title = view.findViewById<TextView>(R.id.title)
+    }
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.ccategory_item, parent, false)
+
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        holder.title.text = getItem(position).name
+
+        Glide.with(fragment)
+            .load(getItem(position).image.src)
+            .placeholder(R.drawable.ic_baseline_error_outline_24)
+            .error(R.drawable.ic_baseline_error_outline_24)
+            .into(holder.imageViewItemCategory)
+
+        val  colorList = arrayListOf("#E2B646", "#9DE246", "#46E2A1", "#468EE2", "#E24646")
+
+
+        if (NetworkParams.colorId < 5){
+            holder.cardView.setCardBackgroundColor(Color.parseColor(colorList[NetworkParams.colorId]));
+            NetworkParams.colorId ++
+        }
+        else
+            NetworkParams.colorId = 0
+
+
+        holder.itemView.setOnClickListener {
+            showFilmDetails(getItem(position).id)
+        }
+
+    }
+
+    companion object DiffCallback : DiffUtil.ItemCallback<com.example.onlineshop.model.Category>() {
+        override fun areItemsTheSame(oldItem: com.example.onlineshop.model.Category, newItem: com.example.onlineshop.model.Category): Boolean {
+            return oldItem.name == newItem.name
+        }
+
+        override fun areContentsTheSame(oldItem: com.example.onlineshop.model.Category, newItem: com.example.onlineshop.model.Category): Boolean {
+            return oldItem.name == newItem.name
+        }
+    }
+}

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="ui.detail.DetailFragment">
+    tools:context=".ui.detail.DetailFragment">
 
 
     <ScrollView
@@ -170,6 +170,12 @@
                 android:textColor="@color/black"
                 android:textDirection="rtl"
                 android:textSize="18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_marginBottom="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerview"/>
 
         </LinearLayout>
 

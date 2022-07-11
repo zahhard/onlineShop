@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#E22A35"
-    tools:context="ui.SplashScreenFragment">
+    tools:context=".ui.SplashScreenFragment">
 
     <ImageView
         android:id="@+id/icon_splash_screen"
@@ -21,7 +21,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="ui.SplashScreenFragment"
+        android:name="com.example.onlineshop.ui.SplashScreenFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

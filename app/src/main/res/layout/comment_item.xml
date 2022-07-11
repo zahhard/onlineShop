@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="280sp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_margin="10dp"
@@ -45,7 +45,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="علی زمانی"
-        android:layout_margin="25dp"
+        android:layout_gravity="end"
+        android:layoutDirection="rtl"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginVertical="10dp"
         android:textStyle="bold"
         android:textSize="15sp"/>
 
@@ -55,7 +58,8 @@
         android:layout_height="wrap_content"
         android:text="علی زمانی"
         android:textColor="#9C9A9A"
-        android:layout_margin="25dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="25sp"
         android:textStyle="bold"
         android:textSize="15sp"/>
 
