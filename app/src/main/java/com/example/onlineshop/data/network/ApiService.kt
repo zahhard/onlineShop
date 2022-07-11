@@ -124,4 +124,11 @@ interface ApiService {
         @Query("per_page") perPage: Int = 100
     ): Response<List<CommentsItem>>
 
+    @POST("products/reviews")
+    suspend fun postComment(
+        @Body data : CommentSent,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ): Response<CommentsItem>
+
 }
