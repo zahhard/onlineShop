@@ -56,6 +56,7 @@ class LoginFragment : Fragment() {
             loginViewModel.customer.observe(viewLifecycleOwner) {
                 editor.putInt("id", it.id)
                 editor.putString("name", it.first_name + " " + it.last_name)
+                editor.putString("email", it.email)
                 editor.apply()
             }
 
@@ -64,8 +65,6 @@ class LoginFragment : Fragment() {
                 editor.apply()
                 goToCart()
             }
-
-
         }
     }
 

@@ -21,7 +21,6 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/line1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -183,12 +182,18 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_marginBottom="150dp"
+                android:layout_marginBottom="50dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/recyclerview"/>
 
-        </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/addComment"
+                android:layout_marginBottom="170dp"
+                android:text="add comment"/>
 
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>
