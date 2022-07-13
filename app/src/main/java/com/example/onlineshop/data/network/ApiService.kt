@@ -118,12 +118,11 @@ interface ApiService {
 
     ) : OrderResponse
 
-    @DELETE("products/product/{id}")
+    @DELETE("orders/{id}")
     suspend fun deleteOrder(
         @Path("id") id: Int,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-        @Query("force") force: Boolean = true
     ): Response<ProduceItem>
 
     //*********************************  ( Review )  ***********************************************
