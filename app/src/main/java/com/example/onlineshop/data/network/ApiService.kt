@@ -85,6 +85,8 @@ interface ApiService {
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
     ) : List<com.example.onlineshop.model.Size2>
 
+    //**********************************************************************************************
+
     @POST("orders")
     suspend fun addToCart(
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
@@ -116,6 +118,16 @@ interface ApiService {
 
     ) : OrderResponse
 
+    @DELETE("products/product/{id}")
+    suspend fun deleteOrder(
+        @Path("id") id: Int,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+        @Query("force") force: Boolean = true
+    ): Response<ProduceItem>
+
+    //*********************************  ( Review )  ***********************************************
+
     @GET("products/reviews")
     suspend fun getProductReviews(
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
@@ -129,6 +141,22 @@ interface ApiService {
         @Body data : CommentSent,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ): Response<CommentsItem>
+
+    @PUT("products/reviews/{id}")
+    suspend fun putComment(
+        @Path("id") id: Int,
+        @Body data : CommentSent,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+    ): Response<CommentsItem>
+
+    @DELETE("products/reviews/{id}")
+    suspend fun deleteComment(
+        @Path("id") id: Int,
+        @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
+        @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
+        @Query("force") force: Boolean = true
     ): Response<CommentsItem>
 
 }
