@@ -63,4 +63,8 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
     suspend fun postComment(commentsItem: CommentSent): Response<CommentsItem> {
         return  remoteDataSource.postComment(commentsItem)
     }
+
+    suspend fun deleteOrder(id : Int): Response<ProduceItem> {
+        return remoteDataSource.deleteOrder(id = id)
+    }
 }

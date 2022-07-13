@@ -2,6 +2,7 @@ package com.example.onlineshop.ui.detail
 
 import adapter.CommentAdapter
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -27,6 +28,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
@@ -98,9 +101,10 @@ class DetailFragment : Fragment() {
                     var email = sharedPreferences.getString("email", "")
                     var commentsItem = CommentSent(itemId, commentText , name!! ,email!!, commentRate)
                     detailViewModel.postComment(commentsItem)
+
                     detailViewModel.commentLiveData.observe(viewLifecycleOwner){
-                        comments.add(it)
-                        adapter.submitList(comments)
+                        detailViewModel.produceCommentsLiveData.value!!.plus(it)
+//                        adapter.submitList(comments)
                     }
 
                     Toast.makeText(requireContext(), "ثبت شد :)", Toast.LENGTH_SHORT).show()
@@ -153,11 +157,20 @@ class DetailFragment : Fragment() {
 
 
                 var lineItem = LineItem(itemId, 1)
-                var order = OrderResponse(3287, listOf(lineItem))
+                var order = OrderResponse(orderId, listOf(lineItem))
 
                 detailViewModel.updateCart(order, orderId)
                 binding.btnAddToCart.isClickable = false
                 binding.btnAddToCart.text = "به سبد افزوده شد"
+
+
+                var prev = sharedPreferences.getString("productIdList", "")
+                sharedPreferences.edit().putString("productIdList", "$prev$itemId,").apply()
+
+                var a = sharedPreferences.getString("quantityList", "")
+                sharedPreferences.edit().putString("quantityList", "$a$itemId,").apply()
+
+
             }
         }
     }

@@ -17,6 +17,7 @@ class DetailViewModel @Inject constructor(val commodityRepository: CommodityRepo
     var commentLiveData = MutableLiveData<CommentsItem>()
     var produceCommentsLiveData = MutableLiveData<List<CommentsItem>>()
     var orderLiveData = MutableLiveData<OrderResponse>()
+    var produceIdList = ArrayList<Int>()
 
     fun getItemDetail(id: Int) {
         status.value = ApiStatus.LOADING
@@ -38,6 +39,7 @@ class DetailViewModel @Inject constructor(val commodityRepository: CommodityRepo
         status.value = ApiStatus.LOADING
         viewModelScope.launch {
             orderLiveData.value = commodityRepository.updateCart(order, orderId).body()
+            status.value = ApiStatus.DONE
         }
     }
 

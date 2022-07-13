@@ -33,7 +33,7 @@ data class ProduceItem(
 //    val featured: Boolean,
 //    val grouped_products: List<Any>,
     @Json(name = "id") val id: Int,
-    val images: List<com.example.onlineshop.model.Image>,
+    val images: List<Image>,
 //    val low_stock_amount: Any,
 //    val manage_stock: Boolean,
 //    val menu_order: Int,

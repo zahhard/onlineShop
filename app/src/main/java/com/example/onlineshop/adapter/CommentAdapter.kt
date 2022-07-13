@@ -1,5 +1,6 @@
 package adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,64 @@ import com.example.onlineshop.R
 import com.example.onlineshop.adapter.showInsideOfCategory
 import com.example.onlineshop.model.CommentsItem
 import org.w3c.dom.Comment
-
+//
+//class gfgViewAdapter(productId: Int ,context: Context, list: ArrayList<CommentsItem>) :
+//    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+//
+//    companion object {
+//        const val THE_FIRST_VIEW = 1
+//        const val THE_SECOND_VIEW = 2
+//    }
+//
+//    private val yourContext: Context = context
+//    var list: ArrayList<CommentsItem> = list
+//
+//    private inner class GfgViewOne(itemView: View) :
+//        RecyclerView.ViewHolder(itemView) {
+//        var gfgText: TextView = itemView.findViewById(R.id.gfgTextView)
+//        fun bind(position: Int) {
+//            val recyclerViewModel = list[position]
+//            gfgText.text = recyclerViewModel.textData
+//        }
+//    }
+//
+//    private inner class View2ViewHolder(itemView: View) :
+//        RecyclerView.ViewHolder(itemView) {
+//        var gfgText: TextView = itemView.findViewById(R.id.gfgTextView)
+//        fun bind(position: Int) {
+//            val recyclerViewModel = list[position]
+//            gfgText.text = recyclerViewModel.textData
+//        }
+//    }
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+//        if (viewType == VIEW_TYPE_ONE) {
+//            return GfgViewOne(
+//                LayoutInflater.from(context).inflate(R.layout.gfgParentOne, parent, false)
+//            )
+//        }
+//        return View2ViewHolder(
+//            LayoutInflater.from(context).inflate(R.layout.item_view_2, parent, false)
+//        )
+//    }
+//
+//    override fun getItemCount(): Int {
+//        return list.size
+//    }
+//
+//    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+//        if (list[position].product_id === VIEW_TYPE_ONE) {
+//            (holder as GfgViewOne).bind(position)
+//        } else {
+//            (holder as View2ViewHolder).bind(position)
+//        }
+//    }
+//
+//    override fun getItemViewType(position: Int): Int {
+//        return list[position].id
+//    }
+//}
+//
 
 class CommentAdapter(var fragment: Fragment, private var showFilmDetails: showInsideOfCategory) :
     ListAdapter<CommentsItem, CommentAdapter.ViewHolder>(DiffCallback) {
