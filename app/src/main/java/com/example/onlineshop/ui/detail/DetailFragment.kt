@@ -2,7 +2,6 @@ package com.example.onlineshop.ui.detail
 
 import adapter.CommentAdapter
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -26,8 +25,6 @@ import com.example.onlineshop.databinding.FragmentDetailBinding
 import com.example.onlineshop.model.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -122,7 +119,7 @@ class DetailFragment : Fragment() {
         }
 
         detailViewModel.status.observe(viewLifecycleOwner) {
-            if (it == ApiStatus.LOADING) {
+            if (it == Status.LOADING) {
                 val layout = binding.animationView
                 layout.isGone = false
                 binding.line1.isGone = true

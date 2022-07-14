@@ -17,20 +17,20 @@ class LoginViewModel @Inject constructor(var commodityRepository: CommodityRepos
     ViewModel() {
     var id = Random.nextInt(10000)
 
-    var customer = MutableLiveData<Customer>()
-    var orderLiveData = MutableLiveData<OrderResponse>()
+    var customer = MutableLiveData<Customer?>()
+    var orderLiveData = MutableLiveData<OrderResponse?>()
 
     fun register(fName: String, lName: String, email: String) {
         viewModelScope.launch {
             val data = Data(first_name = fName, last_name = lName, email = email)
-            customer.value = commodityRepository.register(data).body()
+            customer.value = commodityRepository.register(data).data
         }
     }
 
 
     fun addToCart(order: OrderResponse) {
         viewModelScope.launch {
-            orderLiveData.value = commodityRepository.addToCart(order)
+            orderLiveData.value = commodityRepository.addToCart(order).data
         }
     }
 }

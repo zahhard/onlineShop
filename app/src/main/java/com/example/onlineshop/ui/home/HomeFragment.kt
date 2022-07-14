@@ -11,7 +11,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,10 +21,9 @@ import com.example.onlineshop.adapter.CategoryAdapter
 import com.example.onlineshop.adapter.EachItemAdapter
 import com.example.onlineshop.adapter.SliderAdapter
 import com.example.onlineshop.databinding.FragmentHomeBinding
-import com.example.onlineshop.model.ApiStatus
+import com.example.onlineshop.model.Status
 import com.example.onlineshop.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import io.supercharge.shimmerlayout.ShimmerLayout
 
 
 @AndroidEntryPoint
@@ -55,7 +53,7 @@ class HomeFragment : Fragment() {
         ppreferences = requireActivity().getSharedPreferences("search", Context.MODE_PRIVATE)
 
         homeViewModel.status.observe(viewLifecycleOwner){
-            if (it == ApiStatus.LOADING){
+            if (it == Status.LOADING){
                 val layout= binding.decelerate
                 layout.startShimmer()
             }
@@ -77,7 +75,7 @@ class HomeFragment : Fragment() {
         binding.viewPagerImageSlider.setPadding(pagerPadding, 0, pagerPadding, 0)
 
         homeViewModel.specialProduceLiveData.observe(viewLifecycleOwner) {
-            for (image in it.images) {
+            for (image in it!!.images) {
                 listOfImages.add(image.src)
             }
             binding.viewPagerImageSlider.adapter =

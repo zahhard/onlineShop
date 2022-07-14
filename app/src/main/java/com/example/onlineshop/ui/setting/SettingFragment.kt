@@ -13,9 +13,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentSettingBinding
-import com.example.onlineshop.model.ApiStatus
+import com.example.onlineshop.model.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,7 +41,7 @@ class SettingFragment : Fragment() {
 
 
         settingViewModel.status.observe(viewLifecycleOwner){
-            if (it == ApiStatus.LOADING){
+            if (it == Status.LOADING){
                 val layout= binding.animationView
                 layout.isGone = false
                 binding.line1.isGone = true

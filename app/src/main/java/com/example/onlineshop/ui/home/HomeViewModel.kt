@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.example.onlineshop.data.repository.CommodityRepository
-import com.example.onlineshop.model.ApiStatus
+import com.example.onlineshop.model.Status
 import kotlinx.coroutines.launch
 import com.example.onlineshop.model.Category
 import com.example.onlineshop.model.ProduceItem
@@ -14,46 +14,46 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(val commodityRepository: CommodityRepository) : ViewModel() {
 
-    val status = MutableLiveData<ApiStatus>()
-    var categoryListLiveData = MutableLiveData<List<Category>>()
-    var produceLiveDataPopular = MutableLiveData<List<ProduceItem>>()
-    var produceLiveDataRating = MutableLiveData<List<ProduceItem>>()
-    var produceLiveDataNew = MutableLiveData<List<ProduceItem>>()
-    var specialProduceLiveData= MutableLiveData<ProduceItem>()
+    val status = MutableLiveData<Status>()
+    var categoryListLiveData = MutableLiveData<List<Category>?>()
+    var produceLiveDataPopular = MutableLiveData<List<ProduceItem>?>()
+    var produceLiveDataRating = MutableLiveData<List<ProduceItem>?>()
+    var produceLiveDataNew = MutableLiveData<List<ProduceItem>?>()
+    var specialProduceLiveData= MutableLiveData<ProduceItem?>()
 
     fun getCategoryList(){
-        status.value = ApiStatus.LOADING
+        status.value = Status.LOADING
         viewModelScope.launch {
-            categoryListLiveData.value = commodityRepository.getCategoryList()
+            categoryListLiveData.value = commodityRepository.getCategoryList().data
         }
     }
 
     fun getProduceOrderByPopularity(){
-        status.value = ApiStatus.LOADING
+        status.value = Status.LOADING
         viewModelScope.launch {
-            produceLiveDataPopular.value = commodityRepository.getProduceOrderByPopularity("popularity")
+            produceLiveDataPopular.value = commodityRepository.getProduceOrderByPopularity("popularity").data
         }
     }
 
     fun getProduceOrderByRating(){
-        status.value = ApiStatus.LOADING
+        status.value = Status.LOADING
         viewModelScope.launch {
-            produceLiveDataRating.value = commodityRepository.getProduceOrderByPopularity("rating")
-            status.value=ApiStatus.DONE
+            produceLiveDataRating.value = commodityRepository.getProduceOrderByPopularity("rating").data
+            status.value=Status.DONE
         }
     }
 
     fun getProduceOrderByDate(){
-        status.value = ApiStatus.LOADING
+        status.value = Status.LOADING
         viewModelScope.launch {
-            produceLiveDataNew.value = commodityRepository.getProduceOrderByPopularity("date")
+            produceLiveDataNew.value = commodityRepository.getProduceOrderByPopularity("date").data
         }
     }
 
     fun getItemDetail() {
-        status.value = ApiStatus.LOADING
+        status.value = Status.LOADING
         viewModelScope.launch {
-            specialProduceLiveData.value = commodityRepository.getItemDetail(608)
+            specialProduceLiveData.value = commodityRepository.getItemDetail(608).data
         }
     }
 }

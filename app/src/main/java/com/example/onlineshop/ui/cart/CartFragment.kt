@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.adapter.OrderAdapter
 import com.example.onlineshop.databinding.FragmentCartBinding
-import com.example.onlineshop.model.ApiStatus
+import com.example.onlineshop.model.Status
 import com.example.onlineshop.model.LineItem
 import com.example.onlineshop.model.OrderResponse
 import com.example.onlineshop.model.ProduceItem
@@ -195,7 +195,7 @@ class CartFragment : Fragment() {
 
     private fun observeStatus() {
         cartViewModel.status.observe(viewLifecycleOwner) {
-            if (it == ApiStatus.LOADING) {
+            if (it == Status.LOADING) {
                 val layout = binding.animationView
                 layout.isGone = false
                 binding.line1.isGone = true
@@ -218,7 +218,7 @@ class CartFragment : Fragment() {
 
         cartViewModel.orderLiveData.observe(viewLifecycleOwner) {
             val editor: SharedPreferences.Editor = sharedPreferences.edit()
-            var a = editor.putInt("orderId", it.id)
+            var a = editor.putInt("orderId", it!!.id)
             Log.d("qqr", a.toString())
             editor.apply()
         }
