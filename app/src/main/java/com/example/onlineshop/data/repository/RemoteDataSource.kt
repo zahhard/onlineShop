@@ -67,5 +67,9 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
         return apiService.deleteOrder(id = id)
     }
 
+    suspend fun deleteComment(id: Int) : Response<CommentsItem>{
+       return apiService.deleteComment(id)
+    }
+
 
 }

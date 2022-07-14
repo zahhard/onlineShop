@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.example.onlineshop.data.repository.CommodityRepository
 import com.example.onlineshop.model.*
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,6 +17,7 @@ class DetailViewModel @Inject constructor(val commodityRepository: CommodityRepo
     val status = MutableLiveData<ApiStatus>()
     var produceItemLiveData = MutableLiveData<ProduceItem>()
     var commentLiveData = MutableLiveData<CommentsItem>()
+    var commentLiveData2 = MutableLiveData<Response<CommentsItem>>()
     var produceCommentsLiveData = MutableLiveData<List<CommentsItem>>()
     var orderLiveData = MutableLiveData<OrderResponse>()
     var produceIdList = ArrayList<Int>()
@@ -46,6 +49,12 @@ class DetailViewModel @Inject constructor(val commodityRepository: CommodityRepo
     fun postComment(commentsItem: CommentSent) {
         viewModelScope.launch {
            commentLiveData.value = commodityRepository.postComment(commentsItem).body()
+        }
+    }
+
+    fun deleteComment(id: Int) {
+        viewModelScope.async {
+           commentLiveData.value = commodityRepository.deleteComment(id).body()
         }
     }
 }
