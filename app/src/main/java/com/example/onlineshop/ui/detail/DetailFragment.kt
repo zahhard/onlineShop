@@ -58,10 +58,12 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sharedPreferences = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
+
         var commentText = ""
         var commentRate = ""
         var itemId = requireArguments().getInt("filmId", -1)
-        var adapter = CommentAdapter(this, { id -> })
+        var adapter = CommentAdapter(sharedPreferences.getString("email", "")!! , this, { id -> })
 
         binding.addComment.setOnClickListener {
 
