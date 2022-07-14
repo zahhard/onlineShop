@@ -68,7 +68,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="25dp"
                 android:text=""
-                android:textColor="@color/purple_500"
+                android:textColor="@color/blue"
                 android:textSize="18sp" />
 
 
@@ -76,9 +76,8 @@
                 android:id="@+id/tvDetailName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_margin="16dp"
                 android:text=""
-                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <LinearLayout
@@ -93,7 +92,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.5"
-                    android:textColor="@color/black"
                     android:textSize="20sp" />
 
                 <ImageView
@@ -132,9 +130,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="         تومان   "
-                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textStyle="bold"
+                        android:textSize="19sp" />
 
 
                     <TextView
@@ -142,9 +140,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="45500000"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textStyle="bold"
+                        android:textSize="19sp" />
 
                     <Button
                         android:id="@+id/btn_add_to_cart"
@@ -165,8 +163,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
                 android:text="مشخصات محصول"
-                android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 android:textStyle="bold" />
 
 
@@ -176,9 +173,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:text=""
-                android:textColor="@color/black"
                 android:textDirection="rtl"
-                android:textSize="18sp" />
+                android:textSize="19sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"

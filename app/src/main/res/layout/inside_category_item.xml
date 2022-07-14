@@ -29,8 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
                 android:text="گوشي redmi note11 pro"
-                android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="17dp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -51,8 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0.5"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="19sp" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -75,16 +73,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="45500000"
-                        android:textColor="@color/black"
-                        android:textSize="17sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="تومان"
                         android:layout_marginHorizontal="5dp"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="19sp" />
 
                 </LinearLayout>
             </LinearLayout>

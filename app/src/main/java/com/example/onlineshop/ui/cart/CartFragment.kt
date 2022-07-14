@@ -2,6 +2,7 @@ package com.example.onlineshop.ui.cart
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isGone
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -20,10 +24,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.adapter.OrderAdapter
 import com.example.onlineshop.databinding.FragmentCartBinding
-import com.example.onlineshop.model.Status
 import com.example.onlineshop.model.LineItem
 import com.example.onlineshop.model.OrderResponse
 import com.example.onlineshop.model.ProduceItem
+import com.example.onlineshop.model.Status
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
@@ -54,6 +58,7 @@ class CartFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -72,8 +77,48 @@ class CartFragment : Fragment() {
         setRecyclerView()
         setListOfQuantitty()
 
+        binding.themeMode.setOnClickListener {
+            requireContext().theme.changingConfigurations
+
+            chooseThemeDialog()
+        }
+
+
         ///*****************************************************************************************
 
+    }
+
+    private fun chooseThemeDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Choose theme")
+        val styles = arrayOf("Light", "Dark", "System default")
+        val checkedItem = 0
+
+        builder.setSingleChoiceItems(styles, checkedItem) { dialog, which ->
+
+            when (which) {
+                0 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//                    delegate.applyDayNight()
+                    dialog.dismiss()
+                }
+                1 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//                    delegate.applyDayNight()
+
+                    dialog.dismiss()
+                }
+                2 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+//                    delegate.applyDayNight()
+                    dialog.dismiss()
+                }
+
+            }
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun setRecyclerView() {
