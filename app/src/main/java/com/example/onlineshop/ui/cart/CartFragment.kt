@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.appcompat.app.AlertDialog
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -18,11 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.adapter.OrderAdapter
 import com.example.onlineshop.databinding.FragmentCartBinding
-import com.example.onlineshop.model.*
+import com.example.onlineshop.model.ApiStatus
+import com.example.onlineshop.model.LineItem
+import com.example.onlineshop.model.OrderResponse
+import com.example.onlineshop.model.ProduceItem
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
-import java.util.*
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
@@ -58,11 +62,12 @@ class CartFragment : Fragment() {
 
         ///**********************************    (  call fun  )   **********************************
 
+        setListOfProductId()
         observeStatus()
         setUserName()
         callOrderRequest()
         finalPayment()
-        setListOfProductId()
+
         getEachProduct()
         setRecyclerView()
         setListOfQuantitty()
@@ -107,6 +112,7 @@ class CartFragment : Fragment() {
 
     private fun getEachProduct() {
         for (productId in finalIdList) {
+//            Log.d("eeel", productId.toString())
             cartViewModel.getItemDetail(productId)
         }
 
@@ -138,17 +144,9 @@ class CartFragment : Fragment() {
 
     private fun finalPayment() {
         binding.button.setOnClickListener {
-
-            // adding on click listener for our button.
-
-            // on below line we are creating a new bottom sheet dialog.
             val dialog = BottomSheetDialog(requireContext())
-
-            // on below line we are inflating a layout file which we have created.
             val view = layoutInflater.inflate(R.layout.bottom_sheet_cart, null)
 
-            // on below line we are creating a variable for our button
-            // which we are using to dismiss our dialog.
             val btnClose = view.findViewById<Button>(R.id.algo_button)
             val btnSubmit = view.findViewById<Button>(R.id.course_button)
             val codeTextTV = view.findViewById<EditText>(R.id.editTextCode)
@@ -156,20 +154,17 @@ class CartFragment : Fragment() {
 
             price.text = total.toString()
 
-            // on below line we are adding on click listener
-            // for our dismissing the dialog button.
             btnClose.setOnClickListener {
                 dialog.dismiss()
             }
 
-            var  temp = total
+            var temp = total
             codeTextTV.doOnTextChanged { text, start, before, count ->
 
                 if (codeTextTV.text.toString() == "code10") {
                     total *= 0.9.toBigDecimal()
                     price.text = total.toString()
-                }
-                else{
+                } else {
                     total = temp
                     price.text = total.toString()
                     Log.d("lll", temp.toString())
@@ -187,71 +182,57 @@ class CartFragment : Fragment() {
             dialog.setContentView(view)
             dialog.show()
         }
+    }
 
+    private fun callOrderRequest() {
+        cartViewModel.getMyOrder(orderId)
+    }
 
+    private fun setUserName() {
+        val name = sharedPreferences.getString("name", "")
+        binding.name.text = name
+    }
 
-//
-//        AlertDialog.Builder(requireContext())
-//            .setTitle("Total Price : ")
-//            .setMessage(total.toString())
-//            .setNegativeButton("cancel") { _, _ -> }
-//            .setPositiveButton("ok") { _, _ -> clearCart() }
-//            .setCancelable(false)
-//            .show()
-
-}
-
-private fun callOrderRequest() {
-    cartViewModel.getMyOrder(orderId)
-}
-
-private fun setUserName() {
-    val name = sharedPreferences.getString("name", "")
-    binding.name.text = name
-}
-
-private fun observeStatus() {
-    cartViewModel.status.observe(viewLifecycleOwner) {
-        if (it == ApiStatus.LOADING) {
-            val layout = binding.animationView
-            layout.isGone = false
-            binding.line1.isGone = true
-        } else {
-            val layout = binding.animationView
-            layout.isGone = true
-            binding.line1.isGone = false
+    private fun observeStatus() {
+        cartViewModel.status.observe(viewLifecycleOwner) {
+            if (it == ApiStatus.LOADING) {
+                val layout = binding.animationView
+                layout.isGone = false
+                binding.line1.isGone = true
+            } else {
+                val layout = binding.animationView
+                layout.isGone = true
+                binding.line1.isGone = false
+            }
         }
     }
-}
 
-private fun clearCart() {
-    cartViewModel.deleteOrder(orderId)
-    var order = OrderResponse(0, listOf())
-    cartViewModel.addToCart(order)
-
-    cartViewModel.orderLiveData.observe(viewLifecycleOwner) {
+    private fun clearCart() {
+        cartViewModel.deleteOrder(orderId)
+        var order = OrderResponse(0, listOf())
+        cartViewModel.addToCart(order)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        var a = editor.putInt("orderId", it.id)
-        Log.d("qqr", a.toString())
-        editor.apply()
+        editor.remove("productIdList").apply()
+
+        Log.d("qq", sharedPreferences.getString("productIdList", "")!!)
+
+        cartViewModel.orderLiveData.observe(viewLifecycleOwner) {
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+            var a = editor.putInt("orderId", it.id)
+            Log.d("qqr", a.toString())
+            editor.apply()
+        }
+
+        var rr = sharedPreferences.getInt("orderId", -1)
+        Log.d("qqr", rr.toString())
+
+
+
+
+        produceList.value = emptyList()
+        finalIdList.clear()
+        Log.d("ttt", produceList.value.toString())
+        total = a.toBigDecimal()
+        quantityLista = ArrayList<Int>(emptyList())
     }
-
-    var rr = sharedPreferences.getInt("orderId", -1)
-    Log.d("qqr", rr.toString())
-
-    sharedPreferences.edit().remove("productIdList").apply()
-    Log.d("qq", sharedPreferences.getString("productIdList", "")!!)
-//
-//        val manager = LinearLayoutManager(requireContext())
-//        binding.recyclerview.layoutManager = manager
-//        val adapter = OrderAdapter(quantityLista,"", "", this) {  id , count , price -> updateCart(id , count, price) }
-//        adapter.submitList(arrayListOf())
-//        binding.recyclerview.adapter = adapter
-//        total = a.toBigDecimal()
-    produceList.value = emptyList()
-    finalIdList.clear()
-    Log.d("ttt", produceList.value.toString())
-    total = a.toBigDecimal()
-    quantityLista = ArrayList<Int>(emptyList())
-}
 }
