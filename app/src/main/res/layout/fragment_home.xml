@@ -353,8 +353,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="نمایش همه >"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textView4"
                 app:layout_constraintHorizontal_bias="0.065"
@@ -412,8 +410,6 @@
                 app:layout_constraintEnd_toStartOf="@+id/textView2"
                 app:layout_constraintHorizontal_bias="0.065"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 

@@ -50,12 +50,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        ppreferences = requireActivity().getSharedPreferences("search", Context.MODE_PRIVATE)
-
-//        Log.d("eeeeeeeee", ppreferences.getString("theme", "")!!)
-
         checkInternetConnection()
-//        ppreferences = requireActivity().getSharedPreferences("search", Context.MODE_PRIVATE)
 
         homeViewModel.status.observe(viewLifecycleOwner){
             if (it == Status.LOADING){
