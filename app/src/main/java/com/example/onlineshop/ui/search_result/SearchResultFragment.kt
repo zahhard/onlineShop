@@ -38,35 +38,31 @@ class SearchResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchResultViewModel.status.observe(viewLifecycleOwner){
-            if (it == Status.LOADING){
-                val layout= binding.animationView
-                layout.isGone = false
-                binding.line1.isGone = true
-            }
-            else{
-                val layout= binding.animationView
-                layout.isGone = true
-                binding.line1.isGone = false
-            }
+        observeStatus()
+
+        var orderByFromHome = requireArguments().getString("orderBy", "")
+
+        if (orderByFromHome != ""){
+            searchResultViewModel.getProduceOrderBy(orderByFromHome)
+        }
+        else{
+            var orderBy = args.ordderBy
+            var maxPrice = args.maxPrice
+            var sizeList = args.sizeList
+            var colorList = args.colorList
+            var searchValue = args.searchValue
+
+            searchResultViewModel.filter(searchValue, maxPrice, orderBy,"color", colorList.toList())
         }
 
-        var orderBy = args.ordderBy
-        var maxPrice = args.maxPrice
-        var sizeList = args.sizeList
-        var colorList = args.colorList
-        var searchValue = args.searchValue
+        observeSearchResult()
+    }
 
-
-        searchResultViewModel.filter(searchValue, maxPrice, orderBy,"color", colorList.toList())
-
-        Log.d("aaa", searchValue + " " + orderBy)
-
+    private fun observeSearchResult() {
         searchResultViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
-            if (it!!.isEmpty()){
+            if (it!!.isEmpty()) {
                 binding.tvNotFind.isGone = false
-            }
-            else{
+            } else {
                 val manager = LinearLayoutManager(requireContext())
                 binding.recyclerview.layoutManager = manager
                 var adapter = InsideCategoryAdapter(this) {}
@@ -75,9 +71,19 @@ class SearchResultFragment : Fragment() {
                 binding.tvNotFind.isGone = true
             }
         }
-        setSearchResult(searchValue)
     }
 
-    private fun setSearchResult(searchValue: String) {
+    private fun observeStatus() {
+        searchResultViewModel.status.observe(viewLifecycleOwner) {
+            if (it == Status.LOADING) {
+                val layout = binding.animationView
+                layout.isGone = false
+                binding.line1.isGone = true
+            } else {
+                val layout = binding.animationView
+                layout.isGone = true
+                binding.line1.isGone = false
+            }
+        }
     }
 }

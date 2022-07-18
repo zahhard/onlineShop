@@ -25,6 +25,14 @@ class SearchResultViewModel @Inject constructor(val commodityRepository: Commodi
         }
     }
 
+    fun getProduceOrderBy(orderByy :String){
+        status.value = Status.LOADING
+        viewModelScope.launch {
+            produceLiveDataNew.value = commodityRepository.getProduceOrderByPopularity(orderByy).data
+            status.value=Status.DONE
+        }
+    }
+
 
     fun filter(id: String, maxPrice: String, orderBy: String , attribute: String, attributeTerm: List<String>){
         status.value = Status.LOADING
