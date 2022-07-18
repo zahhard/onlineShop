@@ -1,7 +1,13 @@
 package com.example.onlineshop.ui.cart
 
+import android.Manifest
 import android.content.Context
+import android.content.Context.LOCATION_SERVICE
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,11 +21,15 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isGone
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.adapter.OrderAdapter
@@ -32,8 +42,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
 
+
+
 @AndroidEntryPoint
-class CartFragment : Fragment() {
+class CartFragment : Fragment(),LocationListener {
+    val  locationPermissionCode=1001
 
     private lateinit var binding: FragmentCartBinding
     private val cartViewModel: CartViewModel by viewModels()
@@ -42,6 +55,8 @@ class CartFragment : Fragment() {
     private var finalIdList = ArrayList<Int>(emptyList())
     private var quantityLista = ArrayList<Int>(emptyList())
     private var orderId = -1
+    private var locationManager: LocationManager? = null
+
     var a = 0
     var total: BigDecimal = a.toBigDecimal()
 
@@ -67,6 +82,8 @@ class CartFragment : Fragment() {
 
         ///**********************************    (  call fun  )   **********************************
 
+//        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
+
         setListOfProductId()
         observeStatus()
         setUserName()
@@ -83,11 +100,51 @@ class CartFragment : Fragment() {
             chooseThemeDialog()
         }
 
+        binding.map.setOnClickListener {
+
+
+            locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if ((ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED)
+            ) {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    locationPermissionCode
+                )
+            }
+            requireActivity().let {
+                locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
+            }
+
+            findNavController().navigate(R.id.action_cartFragment_to_mapsFragment)
+        }
+
+
 
         ///*****************************************************************************************
 
     }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == locationPermissionCode) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
 
+
+        }
+
+
+
+    }
     private fun chooseThemeDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Choose theme")
@@ -95,23 +152,35 @@ class CartFragment : Fragment() {
         val checkedItem = 0
 
         builder.setSingleChoiceItems(styles, checkedItem) { dialog, which ->
-
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
             when (which) {
                 0 -> {
+                    dialog.dismiss()
+                    editor.putString("theme", "light")
+                    editor.apply()
+                    Log.d("eeeeeeeee", sharedPreferences.getString("theme", "")!!)
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 //                    delegate.applyDayNight()
-                    dialog.dismiss()
+
                 }
                 1 -> {
+                    editor.putString("theme", "night")
+                    editor.apply()
+                    Log.d("eeeeeeeee", sharedPreferences.getString("theme", "")!!)
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 //                    delegate.applyDayNight()
 
                     dialog.dismiss()
+
                 }
                 2 -> {
+                    dialog.dismiss()
+                    editor.putString("theme", "system")
+                    editor.apply()
+                    Log.d("eeeeeeeee", sharedPreferences.getString("theme", "")!!)
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 //                    delegate.applyDayNight()
-                    dialog.dismiss()
+
                 }
 
             }
@@ -280,4 +349,16 @@ class CartFragment : Fragment() {
         total = a.toBigDecimal()
         quantityLista = ArrayList<Int>(emptyList())
     }
-}
+
+    override fun onLocationChanged(p0: Location) {
+
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putString("Latitude", p0.latitude.toString())
+        editor.putString("Longitude", p0.longitude.toString())
+        editor.apply()
+
+        Toast.makeText(
+            requireContext(),  "Latitude: " + p0.latitude + " , Longitude: " + p0.longitude, Toast.LENGTH_SHORT
+        ).show()}
+
+    }
