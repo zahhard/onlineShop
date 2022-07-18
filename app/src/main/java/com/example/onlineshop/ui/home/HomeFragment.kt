@@ -22,6 +22,9 @@ import com.example.onlineshop.adapter.CategoryAdapter
 import com.example.onlineshop.adapter.EachItemAdapter
 import com.example.onlineshop.adapter.SliderAdapter
 import com.example.onlineshop.databinding.FragmentHomeBinding
+import com.example.onlineshop.model.Category
+import com.example.onlineshop.model.CheckInternetConnection
+import com.example.onlineshop.model.ProduceItem
 import com.example.onlineshop.model.Status
 import com.example.onlineshop.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +36,6 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
     private var listOfImages = ArrayList<String>()
-    lateinit var ppreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,20 +53,22 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         checkInternetConnection()
+        observeStatus()
 
-        homeViewModel.status.observe(viewLifecycleOwner){
-            if (it == Status.LOADING){
-                val layout= binding.decelerate
+
+    }
+
+    private fun observeStatus() {
+        homeViewModel.status.observe(viewLifecycleOwner) {
+            if (it == Status.LOADING) {
+                val layout = binding.decelerate
                 layout.startShimmer()
-            }
-            else{
-                val layout= binding.decelerate
+            } else {
+                val layout = binding.decelerate
                 layout.stopShimmer()
                 binding.decelerate.isGone = true
             }
         }
-
-
     }
 
     private fun observeSpecialProduce() {
@@ -118,7 +122,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setCategoryRecyclerView(it: List<com.example.onlineshop.model.Category>?) {
+    private fun setCategoryRecyclerView(it: List<Category>?) {
         val manager = LinearLayoutManager(requireContext())
         binding.recyclerviewCategories.setLayoutManager(manager)
         var adapter = CategoryAdapter(this) { id -> goToCategory(id) }
@@ -130,7 +134,7 @@ class HomeFragment : Fragment() {
         )
     }
 
-    private fun setRecyclerView(it: List<com.example.onlineshop.model.ProduceItem>?, recyclerView: RecyclerView, color: String) {
+    private fun setRecyclerView(it: List<ProduceItem>?, recyclerView: RecyclerView, color: String) {
         val manager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = manager
         var adapter = EachItemAdapter(this, { id -> goToDetailPage(id) }, color)
@@ -153,9 +157,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun checkInternetConnection() {
-        if (com.example.onlineshop.model.CheckInternetConnection().checkForInternet(requireContext())) {
+        if (CheckInternetConnection().checkForInternet(requireContext())) {
             observreAllLiveDatas()
             observeSpecialProduce()
+            showAll()
         } else
             AlertDialog.Builder(requireContext())
                 .setTitle("Error")
@@ -163,5 +168,22 @@ class HomeFragment : Fragment() {
                 .setPositiveButton("ok") { _, _ -> checkInternetConnection() }
                 .setCancelable(false)
                 .show()
+    }
+
+    private fun showAll() {
+        binding.showAll1.setOnClickListener {
+            goToShowAll("date")
+        }
+        binding.showAll2.setOnClickListener {
+            goToShowAll("popularity")
+        }
+        binding.showAll3.setOnClickListener {
+            goToShowAll("rating")
+        }
+    }
+
+    private fun goToShowAll(orderBy: String) {
+        var bundle = bundleOf("orderBy" to orderBy)
+        findNavController().navigate(R.id.action_homeFragment_to_searchResultFragment, bundle)
     }
 }
