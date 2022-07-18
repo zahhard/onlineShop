@@ -349,7 +349,7 @@
 
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/show_all_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="نمایش همه >"
@@ -402,7 +402,7 @@
 
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/show_all_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="نمایش همه >"
@@ -454,7 +454,7 @@
 
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/show_all_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="نمایش همه >"
