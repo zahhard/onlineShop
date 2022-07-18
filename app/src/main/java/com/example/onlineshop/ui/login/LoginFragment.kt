@@ -7,12 +7,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentLoginBinding
 import com.example.onlineshop.model.OrderResponse
+import com.example.onlineshop.model.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -62,9 +64,10 @@ class LoginFragment : Fragment() {
 
             loginViewModel.orderLiveData.observe(viewLifecycleOwner) {
                 editor.putInt("orderId", it!!.id)
+                editor.putInt("count", 0)
                 editor.apply()
-                goToCart()
             }
+            findNavController().navigate(R.id.action_loginFragment_to_cartFragment)
         }
     }
 

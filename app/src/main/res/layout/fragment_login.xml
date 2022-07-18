@@ -7,6 +7,21 @@
     android:layout_gravity="center"
     tools:context=".ui.login.LoginFragment">
 
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/animation_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginVertical="25sp"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_loop="true"-->
+<!--        app:lottie_rawRes="@raw/loading" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/line1">
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -62,7 +77,7 @@
         android:text="ثبت نام"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="10dp"
-        app:cornerRadius="10sp"
+        app:cornerRadius="15sp"
         android:paddingVertical="13dp"/>
-
+    </LinearLayout>
 </LinearLayout>

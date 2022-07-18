@@ -1,20 +1,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".ui.detail.DetailFragment">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_marginVertical="25sp"
+        android:id="@+id/animation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/animation_view"
-        app:lottie_rawRes="@raw/loading"
+        android:layout_marginVertical="25sp"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"/>
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,23 +28,50 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_marginVertical="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/favorite"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="20dp"
-                    android:src="@drawable/ic_baseline_favorite_border_24" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/cart"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="20dp"
-                    android:src="@drawable/ic_baseline_shopping_cart_24" />
+                    <ImageView
+                        android:id="@+id/cart"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_baseline_shopping_cart_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginStart="27dp"
+                        android:layout_marginBottom="40dp"
+                        android:background="@drawable/circle"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:paddingHorizontal="8dp"
+                        android:text="2"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/cart"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/cart"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </LinearLayout>
 
@@ -57,7 +84,9 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerImageSlider"
                 android:layout_width="400dp"
-                android:layout_height="400dp" >
+                android:layout_height="400dp">
+
+
             </androidx.viewpager2.widget.ViewPager2>
 
 
@@ -107,23 +136,22 @@
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginHorizontal="10dp" />
-
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="10dp" />
 
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_marginHorizontal="15dp"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="15dp"
-                android:backgroundTint="#F0F0F0">
+                android:layout_marginHorizontal="15dp"
+                android:backgroundTint="#F0F0F0"
+                app:cardCornerRadius="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#00000000"
                     android:layout_margin="10dp"
+                    android:background="#00000000"
                     android:orientation="horizontal">
 
                     <TextView
@@ -131,8 +159,8 @@
                         android:layout_height="wrap_content"
                         android:text="         تومان   "
                         android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:textSize="19sp" />
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
 
 
                     <TextView
@@ -141,16 +169,16 @@
                         android:layout_height="wrap_content"
                         android:text="45500000"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:textSize="19sp" />
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
 
                     <Button
                         android:id="@+id/btn_add_to_cart"
                         android:layout_width="wrap_content"
-                        app:cornerRadius="10dp"
-                        android:layout_marginLeft="70sp"
                         android:layout_height="wrap_content"
-                        android:text="افزودن به سبد خرید"/>
+                        android:layout_marginLeft="70sp"
+                        android:text="افزودن به سبد خرید"
+                        app:cornerRadius="10dp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -177,17 +205,20 @@
                 android:textSize="19sp" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="50dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/recyclerview"/>
+                android:layout_marginBottom="30dp" />
 
             <Button
+                android:id="@+id/addComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/addComment"
-                android:layout_marginBottom="170dp"
-                android:text="add comment"/>
+                android:layout_marginBottom="140dp"
+                android:backgroundTint="#FF7474"
+                android:paddingHorizontal="30dp"
+                android:text="افزودن نظر"
+                app:cornerRadius="15dp" />
 
         </LinearLayout>
     </ScrollView>

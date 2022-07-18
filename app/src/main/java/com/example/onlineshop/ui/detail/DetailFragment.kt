@@ -57,6 +57,8 @@ class DetailFragment : Fragment() {
 
         sharedPreferences = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
 
+
+        detailViewModel.count.value = sharedPreferences.getInt("count", -1)
         var commentText = ""
         var commentRate = ""
         var itemId = requireArguments().getInt("filmId", -1)
@@ -68,6 +70,14 @@ class DetailFragment : Fragment() {
                 detailViewModel.deleteComment(id)
                 detailViewModel.getProduceComments(itemId)
             }
+        }
+
+        detailViewModel.count.observe(viewLifecycleOwner){
+            binding.tvCount.text = it.toString()
+        }
+
+        binding.cart.setOnClickListener {
+            findNavController().navigate(R.id.action_detailFragment_to_cartFragment)
         }
 
         binding.addComment.setOnClickListener {
@@ -171,7 +181,13 @@ class DetailFragment : Fragment() {
                 val a = sharedPreferences.getString("quantityList", "")
                 sharedPreferences.edit().putString("quantityList", "$a$itemId,").apply()
 
+                var count = sharedPreferences.getInt("count", -1) + 1
 
+                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                editor.putInt("count", count)
+                editor.apply()
+                Log.d("rr", sharedPreferences.getInt("count", -1).toString())
+                detailViewModel.count.value = count
             }
         }
     }

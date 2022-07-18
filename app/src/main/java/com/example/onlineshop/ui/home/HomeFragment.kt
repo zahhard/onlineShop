@@ -107,17 +107,17 @@ class HomeFragment : Fragment() {
         }
         homeViewModel.produceLiveDataPopular.observe(viewLifecycleOwner) {
             if (it != null) {
-                setRecyclerView(it, binding.topRecyclerviewPopular, "#A3E0C3")
+                setRecyclerView(it, binding.topRecyclerviewPopular, "#b8e1ff")
             }
         }
         homeViewModel.produceLiveDataRating.observe(viewLifecycleOwner) {
             if (it != null) {
-                setRecyclerView(it, binding.topRecyclerviewBest, "#E4C8AF")
+                setRecyclerView(it, binding.topRecyclerviewBest, "#a3ffd6")
             }
         }
         homeViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
             if (it != null) {
-                setRecyclerView(it, binding.topRecyclerviewNew, "#CDCFEE")
+                setRecyclerView(it, binding.topRecyclerviewNew, "#e2c4f2")
             }
         }
     }

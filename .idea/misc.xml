@@ -3,10 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/BoutCamp/onlineShop/app/src/main/res/drawable/circle.xml" value="0.169" />
+        <entry key="..\:/BoutCamp/onlineShop/app/src/main/res/layout/comment_item.xml" value="0.1" />
+        <entry key="..\:/BoutCamp/onlineShop/app/src/main/res/layout/fragment_cart.xml" value="0.2" />
+        <entry key="..\:/BoutCamp/onlineShop/app/src/main/res/layout/fragment_detail.xml" value="0.2" />
         <entry key="..\:/BoutCamp/onlineShop/app/src/main/res/layout/fragment_home.xml" value="0.1274062816616008" />
+        <entry key="..\:/BoutCamp/onlineShop/app/src/main/res/layout/fragment_login.xml" value="0.1" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

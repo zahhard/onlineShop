@@ -17,10 +17,9 @@ class DetailViewModel @Inject constructor(val commodityRepository: CommodityRepo
     val status = MutableLiveData<Status>()
     var produceItemLiveData = MutableLiveData<ProduceItem?>()
     var commentLiveData = MutableLiveData<CommentsItem?>()
-    var commentLiveData2 = MutableLiveData<Response<CommentsItem?>>()
     var produceCommentsLiveData = MutableLiveData<List<CommentsItem>?>()
     var orderLiveData = MutableLiveData<OrderResponse?>()
-    var produceIdList = ArrayList<Int?>()
+    var count = MutableLiveData<Int>()
 
     fun getItemDetail(id: Int) {
         status.value = Status.LOADING
