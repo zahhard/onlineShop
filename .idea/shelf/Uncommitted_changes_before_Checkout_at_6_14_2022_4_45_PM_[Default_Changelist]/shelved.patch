@@ -1,0 +1,148 @@
+Index: app/src/main/java/ui/home/HomeFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ui\r\n\r\nimport adapter.CategoryAdapter\r\nimport adapter.EachItemAdapter\r\nimport android.content.Context\r\nimport android.net.ConnectivityManager\r\nimport android.net.NetworkCapabilities\r\nimport android.os.Build\r\nimport android.os.Bundle\r\nimport androidx.fragment.app.Fragment\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport androidx.appcompat.app.AlertDialog\r\nimport androidx.core.os.bundleOf\r\nimport androidx.fragment.app.viewModels\r\nimport androidx.navigation.fragment.findNavController\r\nimport androidx.recyclerview.widget.LinearLayoutManager\r\nimport com.example.onlineshop.R\r\nimport com.example.onlineshop.databinding.FragmentHomeBinding\r\nimport dagger.hilt.android.AndroidEntryPoint\r\nimport ui.home.HomeViewModel\r\n\r\n\r\n@AndroidEntryPoint\r\nclass HomeFragment : Fragment() {\r\n\r\n    private lateinit var binding: FragmentHomeBinding\r\n    val homeViewModel : HomeViewModel by viewModels()\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n\r\n    }\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View {\r\n        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)\r\n        return binding.root\r\n    }\r\n\r\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\r\n        super.onViewCreated(view, savedInstanceState)\r\n\r\n        if (checkForInternet(requireContext())) {\r\n            homeViewModel.getCategoryList()\r\n            homeViewModel.getProduceOrderByPopularity()\r\n            homeViewModel.getProduceOrderByRating()\r\n            homeViewModel.getProduceOrderByDate()\r\n\r\n            homeViewModel.categoryListLiveData.observe(viewLifecycleOwner) {\r\n                if (it!= null){\r\n                    val manager = LinearLayoutManager(requireContext())\r\n                    binding.recyclerviewCategories.setLayoutManager(manager)\r\n                    var adapter = CategoryAdapter(this) {  goToCategory() }\r\n                    adapter.submitList(it)\r\n                    binding.recyclerviewCategories.setAdapter(adapter)\r\n                    binding.recyclerviewCategories.layoutManager = LinearLayoutManager(\r\n                        requireContext(),\r\n                        LinearLayoutManager.HORIZONTAL, false)\r\n                }\r\n            }\r\n\r\n            homeViewModel.produceLiveDataPopular.observe(viewLifecycleOwner) {\r\n                if (it!= null){\r\n                    val manager = LinearLayoutManager(requireContext())\r\n                    binding.topRecyclerviewPopular.setLayoutManager(manager)\r\n\r\n                    var adapter = EachItemAdapter(this) {  id -> goToDetailPage(id) }\r\n                    adapter.submitList(it)\r\n                    binding.topRecyclerviewPopular.setAdapter(adapter)\r\n                    binding.topRecyclerviewPopular.layoutManager = LinearLayoutManager(\r\n                        requireContext(),\r\n                        LinearLayoutManager.HORIZONTAL, false)\r\n                }\r\n            }\r\n\r\n            homeViewModel.produceLiveDataRating.observe(viewLifecycleOwner) {\r\n                if (it!= null){\r\n                    val manager = LinearLayoutManager(requireContext())\r\n                    binding.topRecyclerviewBest.setLayoutManager(manager)\r\n\r\n                    var adapter = EachItemAdapter(this) {  id -> goToDetailPage(id) }\r\n                    adapter.submitList(it)\r\n                    binding.topRecyclerviewBest.setAdapter(adapter)\r\n                    binding.topRecyclerviewBest.layoutManager = LinearLayoutManager(\r\n                        requireContext(),\r\n                        LinearLayoutManager.HORIZONTAL, false)\r\n                }\r\n            }\r\n\r\n            homeViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {\r\n                if (it!= null){\r\n                    val manager = LinearLayoutManager(requireContext())\r\n                    binding.topRecyclerviewNew.setLayoutManager(manager)\r\n\r\n                    var adapter = EachItemAdapter(this) { id -> goToDetailPage(id) }\r\n                    adapter.submitList(it)\r\n                    binding.topRecyclerviewNew.setAdapter(adapter)\r\n                    binding.topRecyclerviewNew.layoutManager = LinearLayoutManager(\r\n                        requireContext(),\r\n                        LinearLayoutManager.HORIZONTAL, false)\r\n                }\r\n            }\r\n        } else {\r\n            AlertDialog.Builder(requireContext())\r\n                .setTitle(\"Error\")\r\n                .setMessage(\"Check your internet connection! \")\r\n                .setPositiveButton(\"ok\") { _, _ -> }\r\n                .setCancelable(false)\r\n                .show()\r\n        }\r\n\r\n\r\n        }\r\n\r\n    private fun goToCategory() {\r\n        findNavController().navigate(R.id.action_homeFragment_to_eachCategoryFragment)\r\n    }\r\n\r\n    private fun goToDetailPage(id: Int) {\r\n        val bundle = bundleOf(\"filmId\" to id)\r\n        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)\r\n    }\r\n\r\n    private fun checkForInternet(context: Context): Boolean {\r\n        val connectivityManager =\r\n            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager\r\n        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {\r\n\r\n            // Returns a Network object corresponding to\r\n            // the currently active default data network.\r\n            val network = connectivityManager.activeNetwork ?: return false\r\n\r\n            // Representation of the capabilities of an active network.\r\n            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false\r\n\r\n            return when {\r\n                // Indicates this network uses a Wi-Fi transport,\r\n                // or WiFi has network connectivity\r\n                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true\r\n\r\n                // Indicates this network uses a Cellular transport. or\r\n                // Cellular has network connectivity\r\n                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true\r\n\r\n                // else return false\r\n                else -> false\r\n            }\r\n        } else {\r\n            // if the android version is below M\r\n            @Suppress(\"DEPRECATION\") val networkInfo =\r\n                connectivityManager.activeNetworkInfo ?: return false\r\n            @Suppress(\"DEPRECATION\")\r\n            return networkInfo.isConnected\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ui/home/HomeFragment.kt b/app/src/main/java/ui/home/HomeFragment.kt
+--- a/app/src/main/java/ui/home/HomeFragment.kt	
++++ b/app/src/main/java/ui/home/HomeFragment.kt	
+@@ -7,12 +7,12 @@
+ import android.net.NetworkCapabilities
+ import android.os.Build
+ import android.os.Bundle
+-import androidx.fragment.app.Fragment
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
+ import androidx.appcompat.app.AlertDialog
+ import androidx.core.os.bundleOf
++import androidx.fragment.app.Fragment
+ import androidx.fragment.app.viewModels
+ import androidx.navigation.fragment.findNavController
+ import androidx.recyclerview.widget.LinearLayoutManager
+@@ -26,7 +26,7 @@
+ class HomeFragment : Fragment() {
+ 
+     private lateinit var binding: FragmentHomeBinding
+-    val homeViewModel : HomeViewModel by viewModels()
++    val homeViewModel: HomeViewModel by viewModels()
+ 
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+@@ -51,48 +51,51 @@
+             homeViewModel.getProduceOrderByDate()
+ 
+             homeViewModel.categoryListLiveData.observe(viewLifecycleOwner) {
+-                if (it!= null){
++                if (it != null) {
+                     val manager = LinearLayoutManager(requireContext())
+                     binding.recyclerviewCategories.setLayoutManager(manager)
+-                    var adapter = CategoryAdapter(this) {  goToCategory() }
++                    var adapter = CategoryAdapter(this) { goToCategory() }
+                     adapter.submitList(it)
+                     binding.recyclerviewCategories.setAdapter(adapter)
+                     binding.recyclerviewCategories.layoutManager = LinearLayoutManager(
+                         requireContext(),
+-                        LinearLayoutManager.HORIZONTAL, false)
++                        LinearLayoutManager.HORIZONTAL, false
++                    )
+                 }
+             }
+ 
+             homeViewModel.produceLiveDataPopular.observe(viewLifecycleOwner) {
+-                if (it!= null){
++                if (it != null) {
+                     val manager = LinearLayoutManager(requireContext())
+                     binding.topRecyclerviewPopular.setLayoutManager(manager)
+ 
+-                    var adapter = EachItemAdapter(this) {  id -> goToDetailPage(id) }
++                    var adapter = EachItemAdapter(this) { id -> goToDetailPage(id) }
+                     adapter.submitList(it)
+                     binding.topRecyclerviewPopular.setAdapter(adapter)
+                     binding.topRecyclerviewPopular.layoutManager = LinearLayoutManager(
+                         requireContext(),
+-                        LinearLayoutManager.HORIZONTAL, false)
++                        LinearLayoutManager.HORIZONTAL, false
++                    )
+                 }
+             }
+ 
+             homeViewModel.produceLiveDataRating.observe(viewLifecycleOwner) {
+-                if (it!= null){
++                if (it != null) {
+                     val manager = LinearLayoutManager(requireContext())
+                     binding.topRecyclerviewBest.setLayoutManager(manager)
+ 
+-                    var adapter = EachItemAdapter(this) {  id -> goToDetailPage(id) }
++                    var adapter = EachItemAdapter(this) { id -> goToDetailPage(id) }
+                     adapter.submitList(it)
+                     binding.topRecyclerviewBest.setAdapter(adapter)
+                     binding.topRecyclerviewBest.layoutManager = LinearLayoutManager(
+                         requireContext(),
+-                        LinearLayoutManager.HORIZONTAL, false)
++                        LinearLayoutManager.HORIZONTAL, false
++                    )
+                 }
+             }
+ 
+             homeViewModel.produceLiveDataNew.observe(viewLifecycleOwner) {
+-                if (it!= null){
++                if (it != null) {
+                     val manager = LinearLayoutManager(requireContext())
+                     binding.topRecyclerviewNew.setLayoutManager(manager)
+ 
+@@ -101,7 +104,8 @@
+                     binding.topRecyclerviewNew.setAdapter(adapter)
+                     binding.topRecyclerviewNew.layoutManager = LinearLayoutManager(
+                         requireContext(),
+-                        LinearLayoutManager.HORIZONTAL, false)
++                        LinearLayoutManager.HORIZONTAL, false
++                    )
+                 }
+             }
+         } else {
+@@ -114,10 +118,11 @@
+         }
+ 
+ 
+-        }
++    }
+ 
+     private fun goToCategory() {
+-        findNavController().navigate(R.id.action_homeFragment_to_eachCategoryFragment)
++        val bundle = bundleOf("categoryId" to id)
++        findNavController().navigate(R.id.action_homeFragment_to_eachCategoryFragment2, bundle)
+     }
+ 
+     private fun goToDetailPage(id: Int) {
+@@ -129,28 +134,14 @@
+         val connectivityManager =
+             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+-
+-            // Returns a Network object corresponding to
+-            // the currently active default data network.
+             val network = connectivityManager.activeNetwork ?: return false
+-
+-            // Representation of the capabilities of an active network.
+             val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+-
+             return when {
+-                // Indicates this network uses a Wi-Fi transport,
+-                // or WiFi has network connectivity
+                 activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+-
+-                // Indicates this network uses a Cellular transport. or
+-                // Cellular has network connectivity
+                 activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+-
+-                // else return false
+                 else -> false
+             }
+         } else {
+-            // if the android version is below M
+             @Suppress("DEPRECATION") val networkInfo =
+                 connectivityManager.activeNetworkInfo ?: return false
+             @Suppress("DEPRECATION")
