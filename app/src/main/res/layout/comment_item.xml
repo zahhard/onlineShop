@@ -52,6 +52,12 @@
         android:textStyle="bold"
         android:textSize="15sp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
     <TextView
         android:id="@+id/comment_date"
         android:layout_width="wrap_content"
@@ -63,6 +69,23 @@
         android:textStyle="bold"
         android:textSize="15sp"/>
 
+        <TextView
+            android:id="@+id/edit"
+            android:visibility="gone"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="✏️" />
 
+        <TextView
+            android:id="@+id/remove"
+            android:visibility="gone"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🗑️" />
+
+
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

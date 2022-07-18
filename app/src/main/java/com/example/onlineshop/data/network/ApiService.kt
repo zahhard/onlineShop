@@ -11,7 +11,7 @@ interface ApiService {
     suspend fun getCategoryList(
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret
-    ) : List<com.example.onlineshop.model.Category>
+    ) : Response<List<Category>>
 
 
     @GET("products")
@@ -19,7 +19,7 @@ interface ApiService {
         @Query("orderby") orderby : String,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-    ) : List<com.example.onlineshop.model.ProduceItem>
+    ) : Response<List<ProduceItem>>
 
 
     @GET("products/{id}")
@@ -27,7 +27,7 @@ interface ApiService {
         @Path(value = "id") id : Int,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-    ) : com.example.onlineshop.model.ProduceItem
+    ) : Response<ProduceItem>
 
 
     @GET("products")
@@ -35,7 +35,7 @@ interface ApiService {
         @Query(value = "category") id : Int,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-    ) : List<com.example.onlineshop.model.ProduceItem>
+    ) : Response<List<ProduceItem>>
 
 
     @GET("products")
@@ -43,7 +43,7 @@ interface ApiService {
         @Query(value = "category") id : Int,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-    ) : List<com.example.onlineshop.model.ProduceItem>
+    ) : Response<List<ProduceItem>>
 
 
     @GET("products")
@@ -51,7 +51,7 @@ interface ApiService {
         @Query(value = "search") searchParam : String,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-    ) : List<com.example.onlineshop.model.ProduceItem>
+    ) : Response<List<ProduceItem>>
 
 
     @GET("products")
@@ -63,7 +63,7 @@ interface ApiService {
         @Query(value = "attribute_term") attributeTerm : List<String>,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-    ) : List<com.example.onlineshop.model.ProduceItem>
+    ) : Response<List<ProduceItem>>
 
 
     @POST("customers")
@@ -77,13 +77,13 @@ interface ApiService {
     suspend fun getColors(
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-    ) : List<com.example.onlineshop.model.Color2>
+    ) : Response<List<Color2>>
 
     @GET("products/attributes/4/terms")
     suspend fun getSize(
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-    ) : List<com.example.onlineshop.model.Size2>
+    ) : Response<List<Size2>>
 
     //**********************************************************************************************
 
@@ -92,7 +92,7 @@ interface ApiService {
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
         @Body data : OrderResponse,
-    ) : OrderResponse
+    ) : Response<OrderResponse>
 
     @PUT("orders/{id}")
     suspend fun updateOrder(
@@ -116,14 +116,13 @@ interface ApiService {
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
 
-    ) : OrderResponse
+    ) : Response<OrderResponse>
 
-    @DELETE("products/product/{id}")
+    @DELETE("orders/{id}")
     suspend fun deleteOrder(
         @Path("id") id: Int,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-        @Query("force") force: Boolean = true
     ): Response<ProduceItem>
 
     //*********************************  ( Review )  ***********************************************

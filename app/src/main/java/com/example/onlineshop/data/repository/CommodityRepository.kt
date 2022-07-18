@@ -1,5 +1,6 @@
 package com.example.onlineshop.data.repository
 
+import com.example.onlineshop.error_handeling.Resource
 import com.example.onlineshop.model.*
 import retrofit2.Response
 import javax.inject.Inject
@@ -8,63 +9,67 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
                                                val remoteDataSource: RemoteDataSource
 ) {
 
-    suspend fun getCategoryList(): List<com.example.onlineshop.model.Category>{
+    suspend fun getCategoryList(): Resource<List<Category>>{
         return remoteDataSource.getCategoryList()
     }
 
-    suspend fun getProduceOrderByPopularity(orderBy : String): List<com.example.onlineshop.model.ProduceItem> {
+    suspend fun getProduceOrderByPopularity(orderBy : String): Resource<List<ProduceItem>> {
         return remoteDataSource.getProduceOrderByPopularity(orderBy)
     }
 
-    suspend fun getItemDetail(id: Int) : com.example.onlineshop.model.ProduceItem {
+    suspend fun getItemDetail(id: Int) : Resource<ProduceItem> {
         return remoteDataSource.getItemDetail(id)
     }
 
-    suspend fun getInsideOfCategory(id: Int): List<com.example.onlineshop.model.ProduceItem> {
+    suspend fun getInsideOfCategory(id: Int): Resource<List<ProduceItem>> {
         return remoteDataSource.getInsideOfCategory(id)
     }
 
-    suspend fun search(id: String): List<com.example.onlineshop.model.ProduceItem> {
+    suspend fun search(id: String): Resource<List<ProduceItem>> {
         return remoteDataSource.search(id)
     }
 
-    suspend fun filter(id: String, maxPrice: String, orderBy : String, attribute: String, attributeTerm: List<String>): List<com.example.onlineshop.model.ProduceItem> {
+    suspend fun filter(id: String, maxPrice: String, orderBy : String, attribute: String, attributeTerm: List<String>): Resource<List<ProduceItem>> {
         return remoteDataSource.filter( id, maxPrice, orderBy, attribute, attributeTerm )
     }
 
-    suspend fun register(user : Data) : Response<Customer> {
+    suspend fun register(user : Data) : Resource<Customer> {
         return remoteDataSource.register(user)
     }
 
-    suspend fun addToCart(item : OrderResponse) : OrderResponse {
+    suspend fun addToCart(item : OrderResponse) : Resource<OrderResponse> {
         return remoteDataSource.addToCart(item)
     }
 
-    suspend fun getColors(  ) : List<com.example.onlineshop.model.Color2> {
+    suspend fun getColors(  ) : Resource<List<Color2>> {
         return remoteDataSource.getColors()
     }
 
-    suspend fun getSize(  ) : List<com.example.onlineshop.model.Size2> {
+    suspend fun getSize(  ) : Resource<List<Size2>> {
         return remoteDataSource.getSize()
     }
 
-    suspend fun getCustomerOrders(id: Int): OrderResponse {
+    suspend fun getCustomerOrders(id: Int): Resource<OrderResponse> {
         return remoteDataSource.getCustomerOrders(id)
     }
 
-    suspend fun getProductReviews(id: Int): List<CommentsItem> {
-        return remoteDataSource.getProductReviews(id).body()!!
+    suspend fun getProductReviews(id: Int): Resource<List<CommentsItem>> {
+        return remoteDataSource.getProductReviews(id)
     }
 
-    suspend fun updateCart(order: OrderResponse , id: Int): Response<OrderResponse> {
+    suspend fun updateCart(order: OrderResponse , id: Int): Resource<OrderResponse> {
         return  remoteDataSource.updateCart(order, id)
     }
 
-    suspend fun postComment(commentsItem: CommentSent): Response<CommentsItem> {
+    suspend fun postComment(commentsItem: CommentSent): Resource<CommentsItem> {
         return  remoteDataSource.postComment(commentsItem)
     }
 
-    suspend fun deleteOrder(id : Int): Response<ProduceItem> {
+    suspend fun deleteOrder(id : Int): Resource<ProduceItem> {
         return remoteDataSource.deleteOrder(id = id)
+    }
+
+    suspend fun deleteComment(id: Int): Resource<CommentsItem> {
+        return remoteDataSource.deleteComment(id)
     }
 }

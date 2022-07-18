@@ -1,16 +1,12 @@
 package com.example.onlineshop.ui.each_category
 
-import com.example.onlineshop.adapter.CategoryAdapter
-import com.example.onlineshop.adapter.EachItemAdapter
 import com.example.onlineshop.adapter.InsideCategoryAdapter
-import com.example.onlineshop.adapter.SliderAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
-import androidx.core.text.HtmlCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,10 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.onlineshop.R
 import com.example.onlineshop.databinding.FragmentEachCategoryBinding
-import com.example.onlineshop.model.ApiStatus
+import com.example.onlineshop.model.Status
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.onlineshop.model.CheckInternetConnection
-import com.example.onlineshop.model.ProduceItem
 
 
 @AndroidEntryPoint
@@ -48,7 +42,7 @@ class EachCategoryFragment : Fragment() {
         checkInternetConnection()
 
         eachCategoryViewModel.status.observe(viewLifecycleOwner){
-            if (it == ApiStatus.LOADING){
+            if (it == Status.LOADING){
                 val layout= binding.animationView
                 layout.isGone = false
             }

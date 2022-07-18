@@ -5,34 +5,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.example.onlineshop.data.repository.CommodityRepository
-import com.example.onlineshop.model.ApiStatus
-import kotlinx.coroutines.launch
 import com.example.onlineshop.model.Color2
-import com.example.onlineshop.model.ProduceItem
 import com.example.onlineshop.model.Size2
+import com.example.onlineshop.model.Status
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(val commodityRepository: CommodityRepository) : ViewModel() {
 
-    val status = MutableLiveData<ApiStatus>()
-    var colorListLiveData = MutableLiveData<List<com.example.onlineshop.model.Color2>>()
-    var sizeListLiveData = MutableLiveData<List<com.example.onlineshop.model.Size2>>()
+    val status = MutableLiveData<Status>()
+    var colorListLiveData = MutableLiveData<List<Color2>?>()
+    var sizeListLiveData = MutableLiveData<List<Size2>?>()
 
     fun getColors(){
 
         viewModelScope.launch {
-            status.value = ApiStatus.LOADING
-            colorListLiveData.value = commodityRepository.getColors()
+            status.value = Status.LOADING
+            colorListLiveData.value = commodityRepository.getColors().data
         }
     }
 
     fun getSize(){
         viewModelScope.launch {
-            status.value = ApiStatus.LOADING
-            sizeListLiveData.value = commodityRepository.getSize()
-            status.value = ApiStatus.DONE
+            status.value = Status.LOADING
+            sizeListLiveData.value = commodityRepository.getSize().data
+            status.value = Status.DONE
         }
     }
 

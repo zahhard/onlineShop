@@ -2,7 +2,6 @@ package com.example.onlineshop.ui.detail
 
 import adapter.CommentAdapter
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -26,8 +25,6 @@ import com.example.onlineshop.databinding.FragmentDetailBinding
 import com.example.onlineshop.model.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -58,30 +55,31 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sharedPreferences = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
+
         var commentText = ""
         var commentRate = ""
         var itemId = requireArguments().getInt("filmId", -1)
-        var adapter = CommentAdapter(this, { id -> })
+        var adapter = CommentAdapter(sharedPreferences.getString("email", "")!! , this) { type, id ->
+//            if (type == "edit") {
+//                detailViewModel.removeComment(id)
+//            }
+            if (type == "remove"){
+                detailViewModel.deleteComment(id)
+                detailViewModel.getProduceComments(itemId)
+            }
+        }
 
         binding.addComment.setOnClickListener {
-
-            // adding on click listener for our button.
-
-            // on below line we are creating a new bottom sheet dialog.
             val dialog = BottomSheetDialog(requireContext())
 
-            // on below line we are inflating a layout file which we have created.
             val view = layoutInflater.inflate(R.layout.bottom_sheet_layout, null)
 
-            // on below line we are creating a variable for our button
-            // which we are using to dismiss our dialog.
             val btnClose = view.findViewById<Button>(R.id.algo_button)
             val btnSubmit = view.findViewById<Button>(R.id.course_button)
             val commentTextTV = view.findViewById<EditText>(R.id.editTextCpmmentText)
             val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
 
-            // on below line we are adding on click listener
-            // for our dismissing the dialog button.
             btnClose.setOnClickListener {
                 dialog.dismiss()
             }
@@ -92,8 +90,6 @@ class DetailFragment : Fragment() {
                 dialog.dismiss()
 
 
-                val date: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-
                 if (sharedPreferences.getInt("id", -1) == -1) {
                     findNavController().navigate(R.id.action_detailFragment_to_loginFragment)
                 } else {
@@ -101,14 +97,19 @@ class DetailFragment : Fragment() {
                     var email = sharedPreferences.getString("email", "")
                     var commentsItem = CommentSent(itemId, commentText , name!! ,email!!, commentRate)
                     detailViewModel.postComment(commentsItem)
+//                    detailViewModel.commentLiveData.observe(viewLifecycleOwner){
+//                        detailViewModel.getProduceComments(itemId)
+//                        Log.d("zaza", "it.review")
+//                    }
 
                     detailViewModel.commentLiveData.observe(viewLifecycleOwner){
-                        detailViewModel.produceCommentsLiveData.value!!.plus(it)
+                        detailViewModel.produceCommentsLiveData.value?.plus(it)
 //                        adapter.submitList(comments)
                     }
 
+
                     Toast.makeText(requireContext(), "ثبت شد :)", Toast.LENGTH_SHORT).show()
-                    Log.d("sss", commentText + " " + commentRate)
+                    Log.d("sss", "$commentText $commentRate")
                 }
             }
 
@@ -118,7 +119,7 @@ class DetailFragment : Fragment() {
         }
 
         detailViewModel.status.observe(viewLifecycleOwner) {
-            if (it == ApiStatus.LOADING) {
+            if (it == Status.LOADING) {
                 val layout = binding.animationView
                 layout.isGone = false
                 binding.line1.isGone = true
@@ -134,13 +135,13 @@ class DetailFragment : Fragment() {
 
 
         detailViewModel.produceCommentsLiveData.observe(viewLifecycleOwner) {
-            for (comment in it){
-                comments.add(comment)
-            }
+//            for (comment in it){
+//                comments.add(comment)
+//            }
             val manager = LinearLayoutManager(requireContext())
             binding.recyclerview.layoutManager = manager
-
-            adapter.submitList(comments)
+            Log.d("axs", comments.size.toString())
+            adapter.submitList(it)
             binding.recyclerview.adapter = adapter
             binding.recyclerview.layoutManager = LinearLayoutManager(
                 requireContext(),
@@ -164,10 +165,10 @@ class DetailFragment : Fragment() {
                 binding.btnAddToCart.text = "به سبد افزوده شد"
 
 
-                var prev = sharedPreferences.getString("productIdList", "")
+                val prev = sharedPreferences.getString("productIdList", "")
                 sharedPreferences.edit().putString("productIdList", "$prev$itemId,").apply()
 
-                var a = sharedPreferences.getString("quantityList", "")
+                val a = sharedPreferences.getString("quantityList", "")
                 sharedPreferences.edit().putString("quantityList", "$a$itemId,").apply()
 
 
@@ -200,7 +201,7 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun getImageUrl(produceItem: com.example.onlineshop.model.ProduceItem) {
+    private fun getImageUrl(produceItem:  ProduceItem) {
         for (image in produceItem.images) {
             urlList.add(
                 image.src
@@ -208,7 +209,7 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun getCategoryList(produceItem: com.example.onlineshop.model.ProduceItem) {
+    private fun getCategoryList(produceItem: ProduceItem) {
         for (itemCategory in produceItem.categories) {
             category += itemCategory.name
             category += " / "

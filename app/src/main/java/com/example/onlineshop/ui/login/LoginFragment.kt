@@ -54,14 +54,14 @@ class LoginFragment : Fragment() {
             loginViewModel.addToCart(order)
 
             loginViewModel.customer.observe(viewLifecycleOwner) {
-                editor.putInt("id", it.id)
+                editor.putInt("id", it!!.id)
                 editor.putString("name", it.first_name + " " + it.last_name)
                 editor.putString("email", it.email)
                 editor.apply()
             }
 
             loginViewModel.orderLiveData.observe(viewLifecycleOwner) {
-                editor.putInt("orderId", it.id)
+                editor.putInt("orderId", it!!.id)
                 editor.apply()
                 goToCart()
             }
