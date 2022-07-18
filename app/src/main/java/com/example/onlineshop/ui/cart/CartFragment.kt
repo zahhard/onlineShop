@@ -2,7 +2,6 @@ package com.example.onlineshop.ui.cart
 
 import android.Manifest
 import android.content.Context
-import android.content.Context.LOCATION_SERVICE
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
@@ -23,7 +22,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isGone
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -43,10 +41,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
 
 
-
 @AndroidEntryPoint
-class CartFragment : Fragment(),LocationListener {
-    val  locationPermissionCode=1001
+class CartFragment : Fragment(), LocationListener {
+    val locationPermissionCode = 1001
 
     private lateinit var binding: FragmentCartBinding
     private val cartViewModel: CartViewModel by viewModels()
@@ -89,10 +86,10 @@ class CartFragment : Fragment(),LocationListener {
         setUserName()
         callOrderRequest()
         finalPayment()
-
         getEachProduct()
         setRecyclerView()
         setListOfQuantitty()
+
 
         binding.themeMode.setOnClickListener {
             requireContext().theme.changingConfigurations
@@ -103,7 +100,8 @@ class CartFragment : Fragment(),LocationListener {
         binding.map.setOnClickListener {
 
 
-            locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationManager =
+                requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             if ((ContextCompat.checkSelfPermission(
                     requireContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION
@@ -116,17 +114,23 @@ class CartFragment : Fragment(),LocationListener {
                 )
             }
             requireActivity().let {
-                locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
+                locationManager!!.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    5000,
+                    5f,
+                    this
+                )
             }
 
             findNavController().navigate(R.id.action_cartFragment_to_mapsFragment)
         }
 
 
-
         ///*****************************************************************************************
 
+        binding.ddprice.text = total.toString()
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -138,13 +142,9 @@ class CartFragment : Fragment(),LocationListener {
             } else {
                 Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show()
             }
-
-
         }
-
-
-
     }
+
     private fun chooseThemeDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Choose theme")
@@ -210,6 +210,7 @@ class CartFragment : Fragment(),LocationListener {
             it.forEach { i ->
                 if (i != null) {
                     total += i.price.toBigDecimal()
+                    binding.ddprice.text = total.toString()
                 } else
                     total = a.toBigDecimal()
 
@@ -252,6 +253,7 @@ class CartFragment : Fragment(),LocationListener {
         var a = quantityList?.split(",")
         for (i in 0..a!!.size - 2) {
             quantityLista.add(a[i].toInt())
+
         }
 //        Log.d("pppp", quantityLista.toString())
     }
@@ -358,7 +360,10 @@ class CartFragment : Fragment(),LocationListener {
         editor.apply()
 
         Toast.makeText(
-            requireContext(),  "Latitude: " + p0.latitude + " , Longitude: " + p0.longitude, Toast.LENGTH_SHORT
-        ).show()}
-
+            requireContext(),
+            "Latitude: " + p0.latitude + " , Longitude: " + p0.longitude,
+            Toast.LENGTH_SHORT
+        ).show()
     }
+
+}
