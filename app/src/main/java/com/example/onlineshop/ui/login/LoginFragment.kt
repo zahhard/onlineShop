@@ -3,10 +3,10 @@ package com.example.onlineshop.ui.login
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -41,6 +41,9 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         sharedPreferences = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
 
+
+        observeStatus()
+
         goToCart()
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
@@ -56,24 +59,58 @@ class LoginFragment : Fragment() {
             loginViewModel.addToCart(order)
 
             loginViewModel.customer.observe(viewLifecycleOwner) {
-                editor.putInt("id", it!!.id)
-                editor.putString("name", it.first_name + " " + it.last_name)
-                editor.putString("email", it.email)
-                editor.apply()
+                if (it != null) {
+                    editor.putInt("id", it!!.id)
+                    editor.putString("name", it.first_name + " " + it.last_name)
+                    editor.putString("email", it.email)
+                    editor.apply()
+                    Toast.makeText(requireContext(), "اکانت شما با موفقیت ثبت شد", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                else{
+                    Toast.makeText(requireContext(), "دوباره تلاش کنید !", Toast.LENGTH_SHORT).show()
+                }
             }
 
             loginViewModel.orderLiveData.observe(viewLifecycleOwner) {
                 editor.putInt("orderId", it!!.id)
                 editor.putInt("count", 0)
                 editor.apply()
+                goToCart()
             }
-            findNavController().navigate(R.id.action_loginFragment_to_cartFragment)
         }
     }
 
     private fun goToCart() {
-        if (sharedPreferences.getInt("id", -1) != -1){
+        if (sharedPreferences.getInt("id", -1) != -1) {
             findNavController().navigate(R.id.action_loginFragment_to_cartFragment)
         }
     }
+
+    private fun observeStatus() {
+        loginViewModel.status.observe(viewLifecycleOwner) {
+
+//            NetworkSta
+
+            if (it == Status.LOADING) {
+                val layout = binding.animationView
+                layout.isGone = false
+                binding.line1.isGone = true
+            } else {
+                val layout = binding.animationView
+                layout.isGone = true
+                binding.line1.isGone = false
+            }
+        }
+    }
+
+//    viewModel.statusLiveData.observe(viewLifecycleOwner) {
+//        NetworkStatusViewHandler(
+//            it,
+//            binding.scrollViewLists,
+//            binding.lStatus, { getHomeLists() }, viewModel.statusMessage
+//        )
+//    }
 }
+
+

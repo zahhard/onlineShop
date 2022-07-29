@@ -1,4 +1,4 @@
-package ui
+package com.example.onlineshop.ui.home
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -22,11 +24,11 @@ import com.example.onlineshop.adapter.CategoryAdapter
 import com.example.onlineshop.adapter.EachItemAdapter
 import com.example.onlineshop.adapter.SliderAdapter
 import com.example.onlineshop.databinding.FragmentHomeBinding
+import com.example.onlineshop.error_handeling.NetworkStatusViewHandler
 import com.example.onlineshop.model.Category
 import com.example.onlineshop.model.CheckInternetConnection
 import com.example.onlineshop.model.ProduceItem
 import com.example.onlineshop.model.Status
-import com.example.onlineshop.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -36,6 +38,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
     private var listOfImages = ArrayList<String>()
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +55,21 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+        sharedPreferences = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
+
+        Log.d("yeeees", sharedPreferences.getString("theme", "")!!)
+
+//        locationManager = ContextCompat.getSystemService(LOCATION_SERVICE) as LocationManager?
+
+        when(sharedPreferences.getString("theme", "")){
+            "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "night" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "system" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+
+
         checkInternetConnection()
         observeStatus()
 
@@ -60,14 +78,29 @@ class HomeFragment : Fragment() {
 
     private fun observeStatus() {
         homeViewModel.status.observe(viewLifecycleOwner) {
+
+
+
+            NetworkStatusViewHandler(
+                it ,
+                binding.scroll,
+                binding.lStatus, {homeViewModel.getCategoryList()}, homeViewModel.statusMessage)
+
+
+
+
+
+
             if (it == Status.LOADING) {
                 val layout = binding.decelerate
                 layout.startShimmer()
-            } else {
+            } else if (it == Status.DONE) {
                 val layout = binding.decelerate
                 layout.stopShimmer()
                 binding.decelerate.isGone = true
             }
+            else
+                Toast.makeText(requireContext(), it.name.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -75,7 +108,7 @@ class HomeFragment : Fragment() {
         homeViewModel.getItemDetail()
 
         val pagerPadding = 16
-        binding.viewPagerImageSlider.setClipToPadding(false)
+        binding.viewPagerImageSlider.clipToPadding = false
         binding.viewPagerImageSlider.setPadding(pagerPadding, 0, pagerPadding, 0)
 
         homeViewModel.specialProduceLiveData.observe(viewLifecycleOwner) {
@@ -89,7 +122,7 @@ class HomeFragment : Fragment() {
             binding.viewPagerImageSlider.offscreenPageLimit = 3
             binding.viewPagerImageSlider.getChildAt(0).overScrollMode =
                 RecyclerView.OVER_SCROLL_NEVER
-            var compositePageTransformer = CompositePageTransformer()
+            val compositePageTransformer = CompositePageTransformer()
             compositePageTransformer.addTransformer(MarginPageTransformer(40))
         }
     }
@@ -124,10 +157,10 @@ class HomeFragment : Fragment() {
 
     private fun setCategoryRecyclerView(it: List<Category>?) {
         val manager = LinearLayoutManager(requireContext())
-        binding.recyclerviewCategories.setLayoutManager(manager)
-        var adapter = CategoryAdapter(this) { id -> goToCategory(id) }
+        binding.recyclerviewCategories.layoutManager = manager
+        val adapter = CategoryAdapter(this) { id -> goToCategory(id) }
         adapter.submitList(it)
-        binding.recyclerviewCategories.setAdapter(adapter)
+        binding.recyclerviewCategories.adapter = adapter
         binding.recyclerviewCategories.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL, false
@@ -137,7 +170,7 @@ class HomeFragment : Fragment() {
     private fun setRecyclerView(it: List<ProduceItem>?, recyclerView: RecyclerView, color: String) {
         val manager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = manager
-        var adapter = EachItemAdapter(this, { id -> goToDetailPage(id) }, color)
+        val adapter = EachItemAdapter(this, { id -> goToDetailPage(id) }, color)
         adapter.submitList(it)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(
@@ -183,7 +216,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun goToShowAll(orderBy: String) {
-        var bundle = bundleOf("orderBy" to orderBy)
+        val bundle = bundleOf("orderBy" to orderBy)
         findNavController().navigate(R.id.action_homeFragment_to_searchResultFragment, bundle)
     }
 }
+

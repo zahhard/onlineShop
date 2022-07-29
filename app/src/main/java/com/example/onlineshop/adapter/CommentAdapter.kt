@@ -20,7 +20,7 @@ import com.example.onlineshop.adapter.showInsideOfCategory
 import com.example.onlineshop.model.CommentsItem
 import org.w3c.dom.Comment
 
-typealias removeAndEdit = (String, Int) -> Unit
+typealias removeAndEdit = (String, Int , String, String ) -> Unit
 
 class CommentAdapter(var email : String , var fragment: Fragment, private var showFilmDetails: removeAndEdit) :
     ListAdapter<CommentsItem, CommentAdapter.ViewHolder>(DiffCallback) {
@@ -52,11 +52,13 @@ class CommentAdapter(var email : String , var fragment: Fragment, private var sh
         }
 
         holder.remove.setOnClickListener {
-            showFilmDetails("remove", getItem(position).id)
+            val item = getItem(position)
+            showFilmDetails("remove", item.id, item.review , item.rating)
         }
 
         holder.eddit.setOnClickListener {
-            showFilmDetails("edit", getItem(position).id)
+            val item = getItem(position)
+            showFilmDetails("edit", item.id, item.review , item.rating)
         }
 
         holder.tvName.text = getItem(position).reviewer

@@ -145,10 +145,10 @@ interface ApiService {
     @PUT("products/reviews/{id}")
     suspend fun putComment(
         @Path("id") id: Int,
-        @Body data : CommentSent,
+        @Body data : CommentEdit,
         @Query("consumer_key") consumerKey : String = NetworkParams.consumer_key,
         @Query("consumer_secret") consumerSecret : String = NetworkParams.consumer_secret,
-    ): Response<CommentsItem>
+    ): Response<CommentEdit>
 
     @DELETE("products/reviews/{id}")
     suspend fun deleteComment(

@@ -1,16 +1,18 @@
 package com.example.onlineshop.ui.search_result
 
-import com.example.onlineshop.adapter.InsideCategoryAdapter
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isGone
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.onlineshop.R
+import com.example.onlineshop.adapter.InsideCategoryAdapter
 import com.example.onlineshop.databinding.FragmentSearchResultBinding
 import com.example.onlineshop.model.Status
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +22,7 @@ class SearchResultFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchResultBinding
     private val searchResultViewModel: SearchResultViewModel by viewModels()
-    val args : SearchResultFragmentArgs by navArgs()
+    private val args : SearchResultFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,17 +42,17 @@ class SearchResultFragment : Fragment() {
 
         observeStatus()
 
-        var orderByFromHome = requireArguments().getString("orderBy", "")
+        val orderByFromHome = requireArguments().getString("orderBy", "")
 
         if (orderByFromHome != ""){
             searchResultViewModel.getProduceOrderBy(orderByFromHome)
         }
         else{
-            var orderBy = args.ordderBy
-            var maxPrice = args.maxPrice
+            val orderBy = args.ordderBy
+            val maxPrice = args.maxPrice
             var sizeList = args.sizeList
-            var colorList = args.colorList
-            var searchValue = args.searchValue
+            val colorList = args.colorList
+            val searchValue = args.searchValue
 
             searchResultViewModel.filter(searchValue, maxPrice, orderBy,"color", colorList.toList())
         }
@@ -65,12 +67,17 @@ class SearchResultFragment : Fragment() {
             } else {
                 val manager = LinearLayoutManager(requireContext())
                 binding.recyclerview.layoutManager = manager
-                var adapter = InsideCategoryAdapter(this) {}
+                val adapter = InsideCategoryAdapter(this) { id -> goToDetail(id)}
                 adapter.submitList(it)
                 binding.recyclerview.adapter = adapter
                 binding.tvNotFind.isGone = true
             }
         }
+    }
+
+    private fun goToDetail(id: Int) {
+        val bundle = bundleOf("filmId" to id)
+        findNavController().navigate(R.id.action_searchResultFragment_to_detailFragment , bundle)
     }
 
     private fun observeStatus() {

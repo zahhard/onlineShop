@@ -18,25 +18,44 @@ class LoginViewModel @Inject constructor(var commodityRepository: CommodityRepos
 
 
     var id = Random.nextInt(10000)
-    val status = MutableLiveData<Status>()
+    val status = MutableLiveData<Status>(Status.DONE)
     var customer = MutableLiveData<Customer?>()
     var orderLiveData = MutableLiveData<OrderResponse?>()
+    var statusMessage = ""
 
     fun register(fName: String, lName: String, email: String) {
         viewModelScope.launch {
+
             status.value = Status.LOADING
+
             val data = Data(first_name = fName, last_name = lName, email = email)
-            customer.value = commodityRepository.register(data).data
-            status.value = Status.DONE
+            val register = commodityRepository.register(data)
+
+            customer.value = register.data
+            if (register.status == Status.DONE)
+                status.value = Status.DONE
+            else{
+                statusMessage = register.serverMessage?.message ?: register.message
+                status.value = register.status
+            }
         }
     }
 
 
     fun addToCart(order: OrderResponse) {
         viewModelScope.launch {
+
+            var addToCart = commodityRepository.addToCart(order)
+
             status.value = Status.LOADING
-            orderLiveData.value = commodityRepository.addToCart(order).data
-            status.value = Status.DONE
+            orderLiveData.value = addToCart.data
+
+            if (addToCart.status == Status.DONE)
+                status.value = Status.DONE
+            else{
+                statusMessage = addToCart.serverMessage?.message ?: addToCart.message
+                status.value = addToCart.status
+            }
         }
     }
 }

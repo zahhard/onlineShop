@@ -7,14 +7,14 @@
     android:layout_gravity="center"
     tools:context=".ui.login.LoginFragment">
 
-<!--    <com.airbnb.lottie.LottieAnimationView-->
-<!--        android:id="@+id/animation_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginVertical="25sp"-->
-<!--        app:lottie_autoPlay="true"-->
-<!--        app:lottie_loop="true"-->
-<!--        app:lottie_rawRes="@raw/loading" />-->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="25sp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
 
     <LinearLayout
         android:layout_width="match_parent"

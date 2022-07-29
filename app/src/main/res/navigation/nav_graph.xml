@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_splash_screen" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="ui.HomeFragment"
+        android:name="com.example.onlineshop.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -78,6 +78,9 @@
         <argument
             android:name="maxPrice"
             app:argType="string" />
+        <action
+            android:id="@+id/action_searchResultFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"

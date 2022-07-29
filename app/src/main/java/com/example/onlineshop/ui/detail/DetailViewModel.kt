@@ -56,4 +56,17 @@ class DetailViewModel @Inject constructor(val commodityRepository: CommodityRepo
            commentLiveData.value = commodityRepository.deleteComment(id).data
         }
     }
+
+
+    fun insertProductToCart(cartProduct: CartProduct){
+        viewModelScope.launch {
+            commodityRepository.insertCartProduct(cartProduct)
+        }
+    }
+
+    fun editComment(id: Int, commentsItem: CommentEdit){
+        viewModelScope.launch {
+            commodityRepository.putComment(id , commentsItem).data
+        }
+    }
 }

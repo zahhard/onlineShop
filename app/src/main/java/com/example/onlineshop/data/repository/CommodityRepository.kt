@@ -1,5 +1,6 @@
 package com.example.onlineshop.data.repository
 
+import androidx.lifecycle.LiveData
 import com.example.onlineshop.error_handeling.Resource
 import com.example.onlineshop.model.*
 import retrofit2.Response
@@ -65,6 +66,10 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
         return  remoteDataSource.postComment(commentsItem)
     }
 
+    suspend fun putComment(id: Int, commentsItem: CommentEdit): Resource<CommentEdit> {
+       return remoteDataSource.putComment(id, commentsItem)
+    }
+
     suspend fun deleteOrder(id : Int): Resource<ProduceItem> {
         return remoteDataSource.deleteOrder(id = id)
     }
@@ -72,4 +77,10 @@ class CommodityRepository @Inject constructor (val localDataSource: LocalDataSou
     suspend fun deleteComment(id: Int): Resource<CommentsItem> {
         return remoteDataSource.deleteComment(id)
     }
+
+    suspend fun insertCartProduct(cartProduct: CartProduct) = localDataSource.insertCartProduct(cartProduct)
+
+    fun getAllCartProducts()  = localDataSource.getAllCartProducts()
+
+    suspend fun deleteProduct(id: Int) = localDataSource.deleteProduct(id)
 }

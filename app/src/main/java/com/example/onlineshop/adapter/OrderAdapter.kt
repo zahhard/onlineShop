@@ -12,15 +12,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.onlineshop.R
-import com.example.onlineshop.data.network.ApiService
-import com.example.onlineshop.model.LineItem
+import com.example.onlineshop.model.CartProduct
 import com.example.onlineshop.model.ProduceItem
+import okhttp3.internal.notifyAll
 import java.math.BigDecimal
 
 typealias updateOrder = (Int, Int, BigDecimal) -> Unit
 
 class OrderAdapter(var list : ArrayList<Int> ,var name: String, var url : String, var fragment: Fragment, private var showFilmDetails: updateOrder) :
-    ListAdapter<ProduceItem, OrderAdapter.ViewHolder>(DiffCallback) {
+    ListAdapter<CartProduct, OrderAdapter.ViewHolder>(DiffCallback) {
 
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -52,6 +52,9 @@ class OrderAdapter(var list : ArrayList<Int> ,var name: String, var url : String
         if (count == 1){
             holder.mines.text = "🗑️"
         }
+        else if(count == 0){
+            notifyItemRemoved(position)
+        }
         else{
             holder.mines.text = "➖"
         }
@@ -63,6 +66,9 @@ class OrderAdapter(var list : ArrayList<Int> ,var name: String, var url : String
             showFilmDetails(getItem(position).id, count, getItem(position).price.toBigDecimal())
             if (count == 1){
                 holder.mines.text = "🗑️"
+            }
+            else if(count == 0){
+                notifyItemRemoved(position)
             }
             else{
                 holder.mines.text = "➖"
@@ -76,30 +82,29 @@ class OrderAdapter(var list : ArrayList<Int> ,var name: String, var url : String
             if (count == 1){
                 holder.mines.text = "🗑️"
             }
+            else if(count == 0){
+                notifyItemRemoved(position)
+            }
             else{
                 holder.mines.text = "➖"
             }
         }
 
         Glide.with(fragment)
-            .load(getItem(position).images[0].src)
+            .load(getItem(position).image)
             .placeholder(R.drawable.ic_baseline_downloading_24)
             .error(R.drawable.ic_baseline_error_outline_24)
             .into(holder.imageViewItemCategory)
-
-        holder.itemView.setOnClickListener {
-//            showFilmDetails(getItem(position).id, count, getItem(position).price.toBigDecimal())
-        }
-
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<ProduceItem>() {
-        override fun areItemsTheSame(oldItem: ProduceItem, newItem: ProduceItem): Boolean {
-            return oldItem.id == newItem.id
+
+    companion object DiffCallback : DiffUtil.ItemCallback<CartProduct>() {
+        override fun areItemsTheSame(oldItem: CartProduct, newItem: CartProduct): Boolean {
+            return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: ProduceItem, newItem:ProduceItem): Boolean {
-            return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: CartProduct, newItem:CartProduct): Boolean {
+            return oldItem == newItem
         }
     }
 }

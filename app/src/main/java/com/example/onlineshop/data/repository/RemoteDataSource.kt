@@ -138,6 +138,16 @@ class RemoteDataSource @Inject constructor(val apiService: ApiService) {
         }.fetch()
     }
 
+
+    suspend fun putComment(id: Int, data : CommentEdit,): Resource<CommentEdit> {
+
+        return object : NetworkCall<CommentEdit>() {
+            override suspend fun createCall(): Response<CommentEdit> {
+                return apiService.putComment(id, data)
+            }
+        }.fetch()
+    }
+
     suspend fun deleteOrder(id : Int): Resource<ProduceItem> {
 
         return object : NetworkCall<ProduceItem>() {

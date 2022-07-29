@@ -8,6 +8,7 @@ import com.example.onlineshop.data.repository.CommodityRepository
 import com.example.onlineshop.model.Status
 import kotlinx.coroutines.launch
 import com.example.onlineshop.model.Category
+import com.example.onlineshop.model.Data
 import com.example.onlineshop.model.ProduceItem
 import javax.inject.Inject
 
@@ -20,18 +21,34 @@ class HomeViewModel @Inject constructor(val commodityRepository: CommodityReposi
     var produceLiveDataRating = MutableLiveData<List<ProduceItem>?>()
     var produceLiveDataNew = MutableLiveData<List<ProduceItem>?>()
     var specialProduceLiveData= MutableLiveData<ProduceItem?>()
+    var statusMessage = ""
+
 
     fun getCategoryList(){
+
         status.value = Status.LOADING
+
         viewModelScope.launch {
             categoryListLiveData.value = commodityRepository.getCategoryList().data
+            if (commodityRepository.getCategoryList().status == Status.DONE)
+                status.value = Status.DONE
+            else {
+                statusMessage = commodityRepository.getCategoryList().serverMessage?.message ?: commodityRepository.getCategoryList().message
+                status.value = commodityRepository.getCategoryList().status
+            }
         }
+
+
     }
 
     fun getProduceOrderByPopularity(){
         status.value = Status.LOADING
         viewModelScope.launch {
+            if (commodityRepository.getProduceOrderByPopularity("popularity").status == Status.DONE)
             produceLiveDataPopular.value = commodityRepository.getProduceOrderByPopularity("popularity").data
+            else{
+            status.value = commodityRepository.getProduceOrderByPopularity("popularity").status
+        }
         }
     }
 

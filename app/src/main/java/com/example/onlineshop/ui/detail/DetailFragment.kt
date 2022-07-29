@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.onlineshop.R
 import com.example.onlineshop.adapter.SliderAdapter
 import com.example.onlineshop.databinding.FragmentDetailBinding
@@ -39,6 +40,10 @@ class DetailFragment : Fragment() {
     var category: String = ""
     var comments = ArrayList<CommentsItem>()
     var urlList = ArrayList<String>()
+    var nameCart = ""
+    var imageCart = ""
+    var priceCart = ""
+    var itemId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,24 +61,25 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         sharedPreferences = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
-
-
         detailViewModel.count.value = sharedPreferences.getInt("count", -1)
         var commentText = ""
         var commentRate = ""
-        var itemId = requireArguments().getInt("filmId", -1)
-        var adapter = CommentAdapter(sharedPreferences.getString("email", "")!! , this) { type, id ->
-//            if (type == "edit") {
-//                detailViewModel.removeComment(id)
-//            }
+        itemId = requireArguments().getInt("filmId", -1)
+        val adapter = CommentAdapter(sharedPreferences.getString("email", "")!! , this) { type, id, commentText, rating ->
             if (type == "remove"){
                 detailViewModel.deleteComment(id)
                 detailViewModel.getProduceComments(itemId)
+            }else if ( type == "edit"){
+//                detailViewModel.editComment(id)
+                showDialog(type,   HtmlCompat.fromHtml(commentText, HtmlCompat.FROM_HTML_MODE_LEGACY).toString(), rating, id)
             }
         }
 
         detailViewModel.count.observe(viewLifecycleOwner){
-            binding.tvCount.text = it.toString()
+            if (it == -1)
+                binding.tvCount.text = "0"
+            else
+                binding.tvCount.text = it.toString()
         }
 
         binding.cart.setOnClickListener {
@@ -81,51 +87,7 @@ class DetailFragment : Fragment() {
         }
 
         binding.addComment.setOnClickListener {
-            val dialog = BottomSheetDialog(requireContext())
-
-            val view = layoutInflater.inflate(R.layout.bottom_sheet_layout, null)
-
-            val btnClose = view.findViewById<Button>(R.id.algo_button)
-            val btnSubmit = view.findViewById<Button>(R.id.course_button)
-            val commentTextTV = view.findViewById<EditText>(R.id.editTextCpmmentText)
-            val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
-
-            btnClose.setOnClickListener {
-                dialog.dismiss()
-            }
-
-            btnSubmit.setOnClickListener {
-                commentText = commentTextTV.text.toString()
-                commentRate = ratingBar.rating.toString()
-                dialog.dismiss()
-
-
-                if (sharedPreferences.getInt("id", -1) == -1) {
-                    findNavController().navigate(R.id.action_detailFragment_to_loginFragment)
-                } else {
-                    var name = sharedPreferences.getString("name", "")
-                    var email = sharedPreferences.getString("email", "")
-                    var commentsItem = CommentSent(itemId, commentText , name!! ,email!!, commentRate)
-                    detailViewModel.postComment(commentsItem)
-//                    detailViewModel.commentLiveData.observe(viewLifecycleOwner){
-//                        detailViewModel.getProduceComments(itemId)
-//                        Log.d("zaza", "it.review")
-//                    }
-
-                    detailViewModel.commentLiveData.observe(viewLifecycleOwner){
-                        detailViewModel.produceCommentsLiveData.value?.plus(it)
-//                        adapter.submitList(comments)
-                    }
-
-
-                    Toast.makeText(requireContext(), "ثبت شد :)", Toast.LENGTH_SHORT).show()
-                    Log.d("sss", "$commentText $commentRate")
-                }
-            }
-
-            dialog.setCancelable(false)
-            dialog.setContentView(view)
-            dialog.show()
+            showDialog("", commentText, commentRate, itemId)
         }
 
         detailViewModel.status.observe(viewLifecycleOwner) {
@@ -145,12 +107,8 @@ class DetailFragment : Fragment() {
 
 
         detailViewModel.produceCommentsLiveData.observe(viewLifecycleOwner) {
-//            for (comment in it){
-//                comments.add(comment)
-//            }
             val manager = LinearLayoutManager(requireContext())
             binding.recyclerview.layoutManager = manager
-            Log.d("axs", comments.size.toString())
             adapter.submitList(it)
             binding.recyclerview.adapter = adapter
             binding.recyclerview.layoutManager = LinearLayoutManager(
@@ -163,25 +121,20 @@ class DetailFragment : Fragment() {
             if (sharedPreferences.getInt("id", -1) == -1) {
                 findNavController().navigate(R.id.action_detailFragment_to_loginFragment)
             } else {
-                var orderId = sharedPreferences.getInt("orderId", -1)
-                Log.d("zahra", orderId.toString())
+                val orderId = sharedPreferences.getInt("orderId", -1)
 
 
-                var lineItem = LineItem(itemId, 1)
-                var order = OrderResponse(orderId, listOf(lineItem))
+                val lineItem = LineItem(itemId, 1)
+                val order = OrderResponse(orderId, listOf(lineItem))
 
-                detailViewModel.updateCart(order, orderId)
-                binding.btnAddToCart.isClickable = false
+                var cartProduct = CartProduct(itemId, nameCart, imageCart, 1, priceCart, priceCart)
+                detailViewModel.insertProductToCart(cartProduct)
+//                detailViewModel.updateCart(order, orderId)
                 binding.btnAddToCart.text = "به سبد افزوده شد"
+                binding.btnAddToCart.isEnabled = false
 
 
-                val prev = sharedPreferences.getString("productIdList", "")
-                sharedPreferences.edit().putString("productIdList", "$prev$itemId,").apply()
-
-                val a = sharedPreferences.getString("quantityList", "")
-                sharedPreferences.edit().putString("quantityList", "$a$itemId,").apply()
-
-                var count = sharedPreferences.getInt("count", -1) + 1
+                val count = sharedPreferences.getInt("count", -1) + 1
 
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 editor.putInt("count", count)
@@ -192,8 +145,73 @@ class DetailFragment : Fragment() {
         }
     }
 
+    private fun showDialog(type: String, commentText: String, commentRate: String, id: Int) {
+        var commentText1 = commentText
+        var commentRate1 = commentRate
+
+        val dialog = BottomSheetDialog(requireContext())
+
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_layout, null)
+
+        val btnClose = view.findViewById<Button>(R.id.algo_button)
+        val btnSubmit = view.findViewById<Button>(R.id.course_button)
+        val commentTextTV = view.findViewById<EditText>(R.id.editTextCpmmentText)
+        val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
+
+
+      if (commentRate1 != "")
+            ratingBar.rating = commentRate1.toFloat()
+
+
+        commentTextTV.setText(commentText1)
+
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnSubmit.setOnClickListener {
+            commentText1 = commentTextTV.text.toString()
+            commentRate1 = ratingBar.rating.toString()
+            dialog.dismiss()
+
+
+
+            if (sharedPreferences.getInt("id", -1) == -1) {
+                findNavController().navigate(R.id.action_detailFragment_to_loginFragment)
+            } else {
+                val name = sharedPreferences.getString("name", "")
+                val email = sharedPreferences.getString("email", "")
+
+
+
+                if (type == "edit"){
+                    val commentsItem = CommentEdit(id , commentText1, name!!, email!!, commentRate1)
+                    detailViewModel.editComment(id , commentsItem)
+                    Toast.makeText(requireContext(), "ثبت شد. \n نیازمند زمان بیشتر است", Toast.LENGTH_SHORT).show()
+
+                }
+                else {
+                    val commentsItem = CommentSent(itemId , commentText1, name!!, email!!, commentRate1)
+                    detailViewModel.postComment(commentsItem)
+                    Toast.makeText(requireContext(), "ثبت شد. \n نیازمند زمان بیشتر است", Toast.LENGTH_SHORT).show()
+                }
+                detailViewModel.commentLiveData.observe(viewLifecycleOwner) {
+                    detailViewModel.produceCommentsLiveData.value?.plus(it)
+//                            adapter.submitList(comments)
+                }
+
+
+
+            }
+        }
+
+        dialog.setCancelable(false)
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
     private fun init() {
-        var itemId = requireArguments().getInt("filmId", -1)
+        val itemId = requireArguments().getInt("filmId", -1)
         detailViewModel.getItemDetail(itemId)
         observeProduceItem()
     }
@@ -206,6 +224,9 @@ class DetailFragment : Fragment() {
                     HtmlCompat.fromHtml(it.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
                 imageCont = it.images.size
                 getImageUrl(it)
+                nameCart = it.name
+                imageCart = urlList[0]
+                priceCart = it.price
                 binding.viewPagerImageSlider.adapter =
                     SliderAdapter(this, urlList, binding.viewPagerImageSlider)
                 binding.rating.text = it.average_rating.toString()
@@ -233,7 +254,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun checkInternetConnection() {
-        if (com.example.onlineshop.model.CheckInternetConnection()
+        if (CheckInternetConnection()
                 .checkForInternet(requireContext())
         ) {
             init()
